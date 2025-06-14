@@ -5,23 +5,29 @@
     "default_domain_resolver":"local",
     "auto_detect_interface":true,
     "rules":[
-      // ------- accept self dns -------
-      {"port":53,
-      "inbound":["dns","direct","tun"],
-      "ip_cidr":[
-        "0.0.0.0/32","::/128",
-        "127.0.0.1/32","::1/128",
-        "127.0.0.53/32",
-        "fd00::1/126","172.19.0.1/30"],
-      "action":"hijack-dns"},
+      // ------- capture self dns -------
+      {"port":[53],"ip_cidr":["0.0.0.0/32","::/128","127.0.0.1/32","::1/128","127.0.0.53/32","fd00::1/126","172.19.0.1/30"],"action":"hijack-dns"},
+      {"inbound":"direct","timeout":"30ms","action":"sniff"},
 
-      // ------- bypass local -------
-      {"ip_is_private":true,"outbound":"direct"},
+      // ------- bypass lan -------
+      {"type":"logical","mode":"and","rules":[
+        {"ip_cidr":["0.0.0.0/32","::/128","127.0.0.1/32","::1/128","127.0.0.53/32","fd00::1/126","172.19.0.1/30"],"port_range":"10000:10009","invert":true},
+        {"ip_is_private":true}
+      ],"outbound":"direct"},
+      // {"ip_is_private":true,"outbound":"direct"},
       // {"rule_set":"rule-process","outbound":"direct"},
 
       // ------- real Global/Direct -------
-      {"clash_mode":"Direct","outbound":"direct"},
-      {"clash_mode":"Global","outbound":"proxy"},
+      {"type":"logical","mode":"and","rules":[
+        {"ip_cidr":["0.0.0.0/32","::/128","127.0.0.1/32","::1/128","127.0.0.53/32","fd00::1/126","172.19.0.1/30"],"port_range":"10000:10009","invert":true},
+        {"clash_mode":"Direct"}
+      ],"outbound":"direct"},
+      {"type":"logical","mode":"and","rules":[
+        {"ip_cidr":["0.0.0.0/32","::/128","127.0.0.1/32","::1/128","127.0.0.53/32","fd00::1/126","172.19.0.1/30"],"port_range":"10000:10009","invert":true},
+        {"clash_mode":"Global"}
+      ],"outbound":"proxy"},
+      // {"clash_mode":"Direct","outbound":"direct"},
+      // {"clash_mode":"Global","outbound":"proxy"},
       
       // ------- local sniff -------
       {"type":"logical","mode":"and","rules":[
@@ -37,7 +43,6 @@
       // ------- route sniff -------
       {"type":"logical","mode":"and","rules":[
         {"rule_set":"geoip-telegram","invert":true},
-        {"inbound":["dns","direct","tun"]},
         {"port":[80,443,853,8080,8443]},
         {"type":"logical","mode":"or","rules":[
           {"clash_mode":"blacklist_fakeip"},
@@ -50,7 +55,7 @@
       {"port":53,"action":"hijack-dns"},
       {"protocol":"dns","action":"hijack-dns"},
 
-      // ------- bypass local -------
+      // ------- bypass lan -------
       {"rule_set":"rule-geph-broker","outbound":"direct"},
       {"rule_set":"geosite-private","outbound":"direct"},
 
@@ -70,10 +75,10 @@
       ],"action":"reject"},
       
       // ------- ad -------
-      {"rule_set":["geosite-ad-AWAvenue","geosite-ad-cat","geosite-category-httpdns-cn","geosite-category-ads-all","rule-custom-block"],"action":"reject"},
+      {"rule_set":["geosite-category-httpdns-cn","geosite-category-ads-all","rule-custom-block"],"action":"reject"},
       // ------- more ad -------
       {"type":"logical","mode":"and","rules":[
-        {"rule_set":"geosite-ad-217heidai"},
+        {"rule_set":["geosite-ad-AWAvenue","geosite-ad-cat","geosite-ad-217heidai"]},
         {"type":"logical","mode":"or","rules":[
           {"clash_mode":"blacklist_fakeip"},
           {"clash_mode":"blacklist"},
@@ -84,7 +89,7 @@
 
       // ------- specific service -------
       {"rule_set":"geoip-telegram","outbound":"proxy"},
-      {"rule_set":"geosite-googlefcm","outbound":"googlefcm"},
+      {"rule_set":["geosite-googlefcm","rule-googlefcm"],"outbound":"googlefcm"},
       {"rule_set":"geosite-onedrive","outbound":"onedrive"},
 
       // // tls fragment
@@ -120,6 +125,7 @@
       {"domain":"end.end","override_address":"1.1.1.1","action":"route-options"}
     ],
     "rule_set":[
+      {"tag":"rule-googlefcm","rules":[{"domain_suffix":["mobile-gtalk6.l.google.com","mobile-gtalk4.l.google.com","mobile-gtalk.l.google.com"]}]},
       {"tag":"rule-geph-broker","rules":[{"domain":["vuejs.org","www.cdn77.com"]}]},
       // {"tag":"rule-process","rules":[{"process_name":["tailscaled","tailscaled.exe","mihomo","mihomo.exe","geph4-client","geph4-client.exe","gephgui-wry","gephgui-wry.exe","geph5-client-gui","geph5-client-gui.exe","geph5-client","geph5-client.exe","sing-box.exe","sing-box"]}]},
       {"tag":"geosite-private","format":"binary","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geosite-private.srs","download_detour":"direct","type":"remote"},
@@ -150,9 +156,9 @@
     "reverse_mapping":true,
     "independent_cache":true,
     "rules":[
-      {"ip_accept_any":true,"server":"hosts"},
+      // {"ip_accept_any":true,"server":"hosts"},
       
-      // ------- bypass local -------
+      // ------- bypass lan -------
       // {"rule_set":"rule-process","server":"local"},
       {"rule_set":"rule-geph-broker","server":"local"},
       {"rule_set":"geosite-private","server":"local"},
@@ -162,10 +168,10 @@
       {"clash_mode":"Global","server":"proxy"},
 
       // ------- ad -------
-      {"rule_set":["geosite-ad-AWAvenue","geosite-ad-cat","geosite-category-httpdns-cn","geosite-category-ads-all","rule-custom-block"],"action":"reject"},
+      {"rule_set":["geosite-category-httpdns-cn","geosite-category-ads-all","rule-custom-block"],"action":"reject"},
       // ------- more ad -------
       {"type":"logical","mode":"and","rules":[
-        {"rule_set":"geosite-ad-217heidai"},
+        {"rule_set":["geosite-ad-AWAvenue","geosite-ad-cat","geosite-ad-217heidai"]},
         {"type":"logical","mode":"or","rules":[
           {"clash_mode":"blacklist_fakeip"},
           {"clash_mode":"blacklist"},
@@ -175,7 +181,7 @@
       ],"action":"reject"},
       
       // ------- specific service -------
-      {"rule_set":"geosite-googlefcm","server":"googlefcm"},
+      {"rule_set":["geosite-googlefcm","rule-googlefcm"],"server":"googlefcm"},
       {"rule_set":"geosite-onedrive","server":"onedrive"},
       
       // ------- gfw/blacklist -------
@@ -249,10 +255,10 @@
       {"tag":"onedrive","server":"dns.alidns.com","domain_resolver":"hosts","detour":"onedrive","type":"https"},
       {"tag":"direct","server":"dns.alidns.com","domain_resolver":"hosts","type":"https"},
       {"tag":"fakeip","inet4_range":"198.18.0.0/15","inet6_range":"fc00::/18","type":"fakeip"},
-      // {"tag":"local","server":"211.138.240.100","type":"udp"},
+      {"tag":"local","server":"211.138.240.100","type":"udp"},
       // {"tag":"local","server":"223.5.5.5","type":"udp"},
       // {"tag":"local","type":"dhcp"},
-      {"tag":"local","type":"local"}, 
+      // {"tag":"local","type":"local"}, 
       {"tag":"hosts","predefined":{"time.cloudflare.com":["162.159.200.123","162.159.200.1"],"dns.pub":["1.12.12.21","120.53.53.53"],"dns.alidns.com":["223.5.5.5","223.6.6.6"],"dns.google":["8.8.4.4"],"dns.cloudflare.com":["104.16.132.229","104.16.133.229"],"cloudflare-dns.com":["104.16.248.249","104.16.249.249"],"localhost":["127.0.0.1","::1"]},"type":"hosts"}
     ]
   },
@@ -271,10 +277,10 @@
   "inbounds":[
     {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"strict_route":true,"interface_name":"sing-tun","platform":{"http_proxy":{"server":"127.0.0.1","server_port":10000,"enabled":true}},"stack":"system","type":"tun"},
     // {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"strict_route":true,"interface_name":"sing-tun","stack":"system","type":"tun"},
-    // {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"auto_redirect":true,"exclude_uid_range":"0:999","strict_route":true,"exclude_interface":["tailscale0"],"route_exclude_address":["100.64.0.0/10"],"route_exclude_address_set":["geoip-cn"],"interface_name":"sing-tun","stack":"system","type":"tun"},
+    // {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"auto_redirect":true,"strict_route":false,"route_exclude_address_set":["geoip-cn"],"interface_name":"sing-tun","stack":"system","type":"tun"},
 
-    // {"tag":"dns","type":"direct","listen":"127.0.0.53","listen_port":53},
-    // {"tag":"dns","type":"direct","listen":"::","listen_port":53},
+    // {"tag":"tproxy","type":"tproxy","listen":"::","listen_port":10003},
+    // {"tag":"redirect","type":"redirect","listen":"::","listen_port":10002},
     // {"tag":"direct","type":"direct","listen":"::","listen_port":10001},
     {"tag":"mixed","type":"mixed","listen":"::","listen_port":10000}
   ],
