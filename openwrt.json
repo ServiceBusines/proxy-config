@@ -275,13 +275,13 @@
     {"tag":"direct","type":"direct"}
   ],
   "inbounds":[
-    {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"strict_route":true,"interface_name":"sing-tun","platform":{"http_proxy":{"server":"127.0.0.1","server_port":10000,"enabled":true}},"stack":"system","type":"tun"},
+    // {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"strict_route":true,"interface_name":"sing-tun","platform":{"http_proxy":{"server":"127.0.0.1","server_port":10000,"enabled":true}},"stack":"system","type":"tun"},
     // {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"strict_route":true,"interface_name":"sing-tun","stack":"system","type":"tun"},
     // {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"auto_redirect":true,"strict_route":false,"route_exclude_address_set":["geoip-cn"],"interface_name":"sing-tun","stack":"system","type":"tun"},
 
-    // {"tag":"tproxy","type":"tproxy","listen":"::","listen_port":10003},
-    // {"tag":"redirect","type":"redirect","listen":"::","listen_port":10002},
-    // {"tag":"direct","type":"direct","listen":"::","listen_port":10001},
+    {"tag":"tproxy","type":"tproxy","listen":"::","listen_port":10003},
+    {"tag":"redirect","type":"redirect","listen":"::","listen_port":10002},
+    {"tag":"direct","type":"direct","listen":"::","listen_port":10001},
     {"tag":"mixed","type":"mixed","listen":"::","listen_port":10000}
   ],
   "ntp":{
@@ -296,6 +296,6 @@
   },
   "experimental":{
     "cache_file":{"path":"1.12.db","store_fakeip":true,"store_rdrc":true,"enabled":true},
-    "clash_api":{"default_mode":"whilelist","secret":"thisIsPassword@","external_controller":":10020"}
+    "clash_api":{"default_mode":"gfw","secret":"thisIsPassword@","external_controller":":10020"}
   }
 }
