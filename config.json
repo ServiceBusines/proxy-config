@@ -33,7 +33,7 @@
           {"clash_mode":"gfw"}
         ],"invert":true}
       ],"action":"reject"},
-      
+
       // ------- ad -------
       {"rule_set":["geosite-category-httpdns-cn","geosite-category-ads-all","rule-custom-block"],"action":"reject"},
       // ------- more ad -------
@@ -87,7 +87,7 @@
     ],
     "rule_set":[
       {"tag":"rule-googlefcm","rules":[{"domain_suffix":["mobile-gtalk6.l.google.com","mobile-gtalk4.l.google.com","mobile-gtalk.l.google.com"]}]},
-      {"tag":"rule-geph-broker","rules":[{"domain":["vuejs.org","www.cdn77.com"]}]},
+      {"tag":"rule-geph-broker","rules":[{"domain":["lambda.us-east-1.amazonaws.com","www.vuejs.org","www.cdn77.com"]}]},
       // {"tag":"rule-process","rules":[{"process_name":["tailscaled","tailscaled.exe","mihomo","mihomo.exe","geph4-client","geph4-client.exe","gephgui-wry","gephgui-wry.exe","geph5-client-gui","geph5-client-gui.exe","geph5-client","geph5-client.exe","sing-box.exe","sing-box"]}]},
       
       {"tag":"geosite-ad-cat","format":"binary","url":"https://ghfast.top/https://raw.githubusercontent.com/Cats-Team/AdRules/main/adrules-singbox.srs","download_detour":"direct","type":"remote"},
