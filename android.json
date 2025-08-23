@@ -91,7 +91,7 @@
       // {"tag":"rule-process","rules":[{"process_name":["tailscaled","tailscaled.exe","mihomo","mihomo.exe","geph4-client","geph4-client.exe","gephgui-wry","gephgui-wry.exe","geph5-client-gui","geph5-client-gui.exe","geph5-client","geph5-client.exe","sing-box.exe","sing-box"]}]},
       
       {"tag":"geosite-ad-cat","url":"https://ghfast.top/https://raw.githubusercontent.com/Cats-Team/AdRules/main/adrules-singbox.srs","download_detour":"direct","type":"remote"},
-      {"tag":"geosite-ad-AWAvenue","url":"https://ghfast.top/https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox-regex.srs","download_detour":"direct","type":"remote"},
+      {"tag":"geosite-ad-AWAvenue","url":"https://ghfast.top/https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json","download_detour":"direct","type":"remote"},
       {"tag":"geosite-ad-217heidai","url":"https://ghfast.top/https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingbox.srs","download_detour":"direct","type":"remote"},
       {"tag":"geosite-category-httpdns-cn","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geosite-category-httpdns-cn.srs","download_detour":"direct","type":"remote"},
       {"tag":"geosite-category-ads-all","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geosite-category-ads-all.srs","download_detour":"direct","type":"remote"},
