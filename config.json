@@ -86,7 +86,7 @@
 
       // {"tag":"geosite-googlefcm","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geosite-googlefcm.srs","download_detour":"direct","type":"remote"},
       // {"tag":"geosite-onedrive","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geosite-onedrive.srs","download_detour":"direct","type":"remote"},
-      {"tag":"geosite-category-games@cn","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geosite-category-games-cn.srs","download_detour":"direct","type":"remote"},
+      // {"tag":"geosite-category-games@cn","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geosite-category-games-cn.srs","download_detour":"direct","type":"remote"},
       // {"tag":"geosite-microsoft@cn","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geosite-microsoft@cn.srs","download_detour":"direct","type":"remote"},
       // {"tag":"geosite-apple@cn","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geosite-apple@cn.srs","download_detour":"direct","type":"remote"},
       {"tag":"geosite-geolocation-!cn@cn","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geosite-geolocation-!cn@cn.srs","download_detour":"direct","type":"remote"},
