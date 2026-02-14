@@ -220,19 +220,20 @@
   ],
   "inbounds":[
     // Windows
-    // {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"type":"tun"},
+    // {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"strict_route":false,"type":"tun"},
 
     // Router
-    {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"auto_redirect":true,"route_exclude_address_set":["geoip-cn"],"type":"tun"},
+    {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"strict_route":false,"auto_redirect":true,"type":"tun"},
+    {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"strict_route":false,"auto_redirect":true,"route_exclude_address_set":["geoip-cn"],"type":"tun"},
     
     // Linux
-    // {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"auto_redirect":true,"exclude_mptcp":true,"loopback_address":"10.7.0.1","route_exclude_address_set":["geoip-cn"],"type":"tun"},
+    // {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"strict_route":false,"auto_redirect":true,"exclude_mptcp":true,"loopback_address":"10.7.0.1","route_exclude_address_set":["geoip-cn"],"type":"tun"},
     
     // IOS
-    // {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"exclude_mptcp":true,"loopback_address":"10.7.0.1","route_exclude_address_set":["geoip-cn"],"platform":{"http_proxy":{"server":"127.0.0.1","server_port":7890,"enabled":true}},"type":"tun"},
+    // {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"strict_route":false,"exclude_mptcp":true,"loopback_address":"10.7.0.1","route_exclude_address_set":["geoip-cn"],"platform":{"http_proxy":{"server":"127.0.0.1","server_port":7890,"enabled":true}},"type":"tun"},
     
     // Android
-    // {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"platform":{"http_proxy":{"server":"127.0.0.1","server_port":7890,"enabled":true}},"type":"tun"},
+    // {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"strict_route":false,"platform":{"http_proxy":{"server":"127.0.0.1","server_port":7890,"enabled":true}},"type":"tun"},
 
     // {"tag":"tproxy","type":"tproxy","listen":"::","listen_port":7893},
     // {"tag":"redirect","type":"redirect","listen":"::","listen_port":7892},
