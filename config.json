@@ -43,6 +43,7 @@
       // {"rule_set":"geoip-telegram","outbound":"proxy"},
       // {"rule_set":["geosite-googlefcm","rule-googlefcm"],"outbound":"googlefcm"},
       // {"rule_set":"geosite-onedrive","outbound":"onedrive"},
+      {"rule_set":"rule-wahlap","outbound":"wahlap"},
 
       // ------- gfw and blacklist -------
       {"type":"logical","mode":"or","rules":[
@@ -73,6 +74,7 @@
       {"domain":"end.end","override_address":"1.1.1.1","action":"route-options"}
     ],
     "rule_set":[
+      {"tag":"rule-wahlap","rules":[{"domain":["wahlap.com"]}]},
       // {"tag":"rule-googlefcm","rules":[{"domain_suffix":["mobile-gtalk6.l.google.com","mobile-gtalk4.l.google.com","mobile-gtalk.l.google.com"]}]},
       {"tag":"rule-geph-broker","rules":[{"domain":["lambda.us-east-1.amazonaws.com","www.vuejs.org","www.cdn77.com"]}]},
       // {"tag":"rule-process","rules":[{"process_name":["tailscaled","tailscaled.exe","mihomo","mihomo.exe","geph4-client","geph4-client.exe","gephgui-wry","gephgui-wry.exe","geph5-client-gui","geph5-client-gui.exe","geph5-client","geph5-client.exe","sing-box.exe","sing-box"]}]},
@@ -214,26 +216,28 @@
     {"tag":"proxy","outbounds":["geph","other"],"type":"selector"},
     {"tag":"googlefcm","outbounds":["direct","proxy"],"type":"selector"},
     {"tag":"onedrive","outbounds":["direct","proxy"],"type":"selector"},
+    {"tag":"wahlap","outbounds":["direct","lxns"],"type":"selector"},
     {"tag":"geph","server_port":9910,"server":"127.0.0.1","type":"http"},
+    {"tag":"lxns","server_port":8080,"server":"proxy.maimai.lxns.net","type":"http"},
     {"tag":"other","server_port":8080,"server":"127.0.0.1","type":"socks","version":"5"},
     {"tag":"direct","type":"direct"}
   ],
   "inbounds":[
     // Windows
-    // {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"type":"tun"},
+    // {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"strict_route":false,"type":"tun"},
 
     // Router
     // {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"strict_route":false,"auto_redirect":true,"include_uid":1000,"type":"tun"},
     // {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"strict_route":false,"auto_redirect":true,"include_uid":1000,"route_exclude_address_set":["geoip-cn"],"type":"tun"},
     
     // Linux
-    // {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"auto_redirect":true,"exclude_mptcp":true,"loopback_address":"10.7.0.1","route_exclude_address_set":["geoip-cn"],"type":"tun"},
+    // {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"strict_route":false,"auto_redirect":true,"exclude_mptcp":true,"loopback_address":"10.7.0.1","route_exclude_address_set":["geoip-cn"],"type":"tun"},
     
     // IOS
-    // {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"exclude_mptcp":true,"loopback_address":"10.7.0.1","route_exclude_address_set":["geoip-cn"],"platform":{"http_proxy":{"server":"127.0.0.1","server_port":7890,"enabled":true}},"type":"tun"},
+    // {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"strict_route":false,"exclude_mptcp":true,"loopback_address":"10.7.0.1","route_exclude_address_set":["geoip-cn"],"platform":{"http_proxy":{"server":"127.0.0.1","server_port":7890,"enabled":true}},"type":"tun"},
     
     // Android
-    // {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"platform":{"http_proxy":{"server":"127.0.0.1","server_port":7890,"enabled":true}},"type":"tun"},
+    // {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"strict_route":false,"platform":{"http_proxy":{"server":"127.0.0.1","server_port":7890,"enabled":true}},"type":"tun"},
 
     // {"tag":"tproxy","type":"tproxy","listen":"::","listen_port":7893},
     // {"tag":"redirect","type":"redirect","listen":"::","listen_port":7892},
