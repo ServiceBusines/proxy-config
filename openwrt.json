@@ -224,7 +224,7 @@
 
     // Router
     {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"strict_route":false,"auto_redirect":true,"type":"tun"},
-    {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"strict_route":false,"auto_redirect":true,"route_exclude_address_set":["geoip-cn"],"type":"tun"},
+    // {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"strict_route":false,"auto_redirect":true,"route_exclude_address_set":["geoip-cn"],"type":"tun"},
     
     // Linux
     // {"tag":"tun","address":["fd00::1/126","172.19.0.1/30"],"auto_route":true,"strict_route":false,"auto_redirect":true,"exclude_mptcp":true,"loopback_address":"10.7.0.1","route_exclude_address_set":["geoip-cn"],"type":"tun"},
