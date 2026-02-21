@@ -79,22 +79,22 @@
       {"tag":"rule-geph-broker","rules":[{"domain":["lambda.us-east-1.amazonaws.com","www.vuejs.org","www.cdn77.com"]}]},
       // {"tag":"rule-process","rules":[{"process_name":["tailscaled","tailscaled.exe","mihomo","mihomo.exe","geph4-client","geph4-client.exe","gephgui-wry","gephgui-wry.exe","geph5-client-gui","geph5-client-gui.exe","geph5-client","geph5-client.exe","sing-box.exe","sing-box"]}]},
 
-      {"tag":"geosite-category-httpdns-cn","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geosite-category-httpdns-cn.srs","download_detour":"direct","type":"remote"},
-      {"tag":"geosite-category-ads-all","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geosite-category-ads-all.srs","download_detour":"direct","type":"remote"},
+      {"tag":"geosite-category-httpdns-cn","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/category-httpdns-cn.srs","download_detour":"direct","type":"remote"},
+      {"tag":"geosite-category-ads-all","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/category-ads-all.srs","download_detour":"direct","type":"remote"},
 
       {"tag":"geosite-gfw","url":"https://ghfast.top/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/gfw.srs","download_detour":"direct","type":"remote"},
       // {"tag":"geosite-steam@cn","url":"https://ghfast.top/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/steam@cn.srs","download_detour":"direct","type":"remote"},
       // {"tag":"geosite-apple-cn","url":"https://ghfast.top/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/apple-cn.srs","download_detour":"direct","type":"remote"},
 
-      // {"tag":"geosite-googlefcm","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geosite-googlefcm.srs","download_detour":"direct","type":"remote"},
-      // {"tag":"geosite-onedrive","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geosite-onedrive.srs","download_detour":"direct","type":"remote"},
-      // {"tag":"geosite-category-games@cn","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geosite-category-games-cn.srs","download_detour":"direct","type":"remote"},
-      // {"tag":"geosite-microsoft@cn","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geosite-microsoft@cn.srs","download_detour":"direct","type":"remote"},
-      // {"tag":"geosite-apple@cn","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geosite-apple@cn.srs","download_detour":"direct","type":"remote"},
-      {"tag":"geosite-geolocation-!cn@cn","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geosite-geolocation-!cn@cn.srs","download_detour":"direct","type":"remote"},
-      {"tag":"geosite-geolocation-!cn","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geosite-geolocation-!cn.srs","download_detour":"direct","type":"remote"},
-      {"tag":"geosite-cn","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geosite-cn.srs","download_detour":"direct","type":"remote"},
-      // {"tag":"geosite-private","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geosite-private.srs","download_detour":"direct","type":"remote"},
+      // {"tag":"geosite-googlefcm","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/googlefcm.srs","download_detour":"direct","type":"remote"},
+      // {"tag":"geosite-onedrive","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/onedrive.srs","download_detour":"direct","type":"remote"},
+      // {"tag":"geosite-category-games@cn","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/category-games-cn.srs","download_detour":"direct","type":"remote"},
+      // {"tag":"geosite-microsoft@cn","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/microsoft@cn.srs","download_detour":"direct","type":"remote"},
+      // {"tag":"geosite-apple@cn","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/apple@cn.srs","download_detour":"direct","type":"remote"},
+      {"tag":"geosite-geolocation-!cn@cn","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geolocation-!cn@cn.srs","download_detour":"direct","type":"remote"},
+      {"tag":"geosite-geolocation-!cn","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geolocation-!cn.srs","download_detour":"direct","type":"remote"},
+      {"tag":"geosite-cn","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/cn.srs","download_detour":"direct","type":"remote"},
+      // {"tag":"geosite-private","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/private.srs","download_detour":"direct","type":"remote"},
 
       // {"tag":"geoip-telegram","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/geoip/release/srs/telegram.srs","download_detour":"direct","type":"remote"},
       {"tag":"geoip-cn","url":"https://ghfast.top/https://raw.githubusercontent.com/nekolsd/geoip/release/srs/cn.srs","download_detour":"direct","type":"remote"},
@@ -183,8 +183,8 @@
       // ------- fakeip -------
       {"query_type":["AAAA","A"],"clash_mode":"whilelist_fakeip","server":"fakeip"},
       // ------- final -------
-      {"ip_accept_any":true,"server":"proxy"},
-      {"server":"fallback"},
+      {"strategy":"ipv4_only","ip_accept_any":true,"server":"proxy"},
+      {"strategy":"ipv4_only","server":"fallback"},
 
       {"domain":"end.end","action":"predefined","rcode":"NOERROR","answer":"one.one.one.one. IN A 1.1.1.1"}
     ],
