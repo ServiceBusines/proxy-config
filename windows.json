@@ -61,6 +61,7 @@
       // ------- check ip -------
       {"clash_mode":"whilelist_only","invert":true,"action":"resolve"},
       // ------- bypass cn ip -------
+      {"clash_mode":"whilelist_leak","rule_set":"geoip-cn","outbound":"direct"},
       {"type":"logical","mode":"and","rules":[
         {"rule_set":"geosite-geolocation-!cn","invert":true},
         {"rule_set":"geoip-cn"}
@@ -70,7 +71,7 @@
     ],
     "rule_set":[
       {"tag":"rule-vrchat-assets","rules":[{"domain":["files.vrchat.cloud","file-variants.vrchat.cloud","assets.vrchat.com"]}]},
-      {"tag":"rule-vrchat-direct","rules":[{"domain_suffix":["vrchat.cloud"]}]},
+      {"tag":"rule-vrchat-direct","rules":[{"domain_suffix":["vrchat.cloud","biliplayer.91vrchat.com"]}]},
       {"tag":"rule-vrchat","rules":[{"domain_suffix":["vrchat.com"]}]},
       {"tag":"rule-wahlap","rules":[{"domain_suffix":["wahlap.com"]}]},
       {"tag":"rule-googlefcm","rules":[{"domain_suffix":["mobile-gtalk6.l.google.com","mobile-gtalk4.l.google.com","mobile-gtalk.l.google.com"]}]},
@@ -161,14 +162,14 @@
       // {"rule_set":["geosite-steam@cn","geosite-apple-cn"],"server":"local"},
       {"rule_set":"geosite-cn","server":"local"},
       // ------- 2nd check cn ip -------
-      {"type":"logical","mode":"and","rules":[
-        {"rule_set":"geosite-geolocation-!cn","invert":true},
-        {"rule_set":"geoip-cn"},
-        {"type":"logical","mode":"or","rules":[
-          {"clash_mode":"whilelist_fakeip"},
-          {"clash_mode":"whilelist"}
-        ]}
-      ],"client_subnet":"202.103.192.0/18","server":"subnet"},
+      // {"type":"logical","mode":"and","rules":[
+      //   {"rule_set":"geosite-geolocation-!cn","invert":true},
+      //   {"rule_set":"geoip-cn"},
+      //   {"type":"logical","mode":"or","rules":[
+      //     {"clash_mode":"whilelist_fakeip"},
+      //     {"clash_mode":"whilelist"}
+      //   ]}
+      // ],"client_subnet":"202.103.192.0/18","server":"subnet"},
       // ------- fallback -------
       {"type":"logical","mode":"and","rules":[
         {"rule_set":"geosite-geolocation-!cn","invert":true},
@@ -193,38 +194,35 @@
       {"domain":"end.end","action":"predefined","rcode":"NOERROR","answer":"one.one.one.one. IN A 1.1.1.1"}
     ],
     "servers":[
-      {"tag":"proxy","detour":"proxy","server":"dns.google","type":"udp"},
-      {"tag":"subnet","detour":"proxy","server":"dns.google","type":"udp"},
-      // {"tag":"fallback","detour":"proxy","server":"dns.cloudflare.com","domain_resolver":"hosts","type":"https"},
-      {"tag":"googlefcm","detour":"googlefcm","server":"dns.alidns.com","domain_resolver":"hosts","type":"https"},
+      {"tag":"proxy","detour":"proxy","server":"dns.cloudflare.com","domain_resolver":"hosts","type":"udp"},
+      {"tag":"subnet","detour":"proxy","server":"dns.google","domain_resolver":"hosts","type":"https"},
+      {"tag":"googlefcm","detour":"googlefcm","server":"dns.alidns.com","domain_resolver":"hosts","type":"udp"},
       // {"tag":"onedrive","detour":"onedrive","server":"dns.alidns.com","domain_resolver":"hosts","type":"https"},
-      {"tag":"vrchat-assets","detour":"vrchat-assets","server":"dns.google","domain_resolver":"hosts","type":"udp"},
+      {"tag":"vrchat-assets","detour":"vrchat-assets","server":"dns.alidns.com","domain_resolver":"hosts","type":"udp"},
       {"tag":"vrchat","detour":"vrchat","server":"dns.google","domain_resolver":"hosts","type":"udp"},
-      {"tag":"direct","server":"dns.alidns.com","domain_resolver":"hosts","type":"https"},
-
+      {"tag":"direct","server":"dns.alidns.com","domain_resolver":"hosts","type":"udp"},
       {
-        "type": "local",
-        // "type": "dhcp",
-        // "server": "223.5.5.5",
+        // "type": "local",
+        "type": "dhcp",
         // "server": "211.138.240.100",
         // "type": "udp",
         "tag": "local"
       },
       {"tag":"fakeip","inet4_range":"198.18.0.0/15","inet6_range":"fc00::/18","type":"fakeip"},
       // {"tag":"resolved","type":"resolved","service":"resolved","accept_default_resolvers":true},
-      {"tag":"hosts","predefined":{"time.cloudflare.com":["162.159.200.123","162.159.200.1"],"dns.pub":["1.12.12.21","120.53.53.53"],"dns.alidns.com":["223.5.5.5","223.6.6.6"],"dns.google":["8.8.8.8", "8.8.4.4"],"dns.cloudflare.com":["104.16.132.229","104.16.133.229"],"cloudflare-dns.com":["104.16.248.249","104.16.249.249"],"localhost":["127.0.0.1","::1"]},"type":"hosts"}
+      {"tag":"hosts","predefined":{"time.cloudflare.com":["162.159.200.123","162.159.200.1"],"dns.pub":["1.12.12.21","120.53.53.53"],"dns.alidns.com":["223.5.5.5","223.6.6.6"],"dns.google":["8.8.8.8", "8.8.4.4"],"dns.cloudflare.com":["104.16.132.229","104.16.133.229"],"cloudflare-dns.com":["104.16.248.249","104.16.249.249"]},"type":"hosts"}
     ]
   },
   "outbounds":[
     {"tag":"proxy","outbounds":["geph","other"],"type":"selector"},
     {"tag":"googlefcm","outbounds":["direct","proxy"],"type":"selector"},
     {"tag":"onedrive","outbounds":["direct","proxy"],"type":"selector"},
-    {"tag":"vrchat-assets","outbounds":["proxy","direct"],"type":"selector"},
+    {"tag":"vrchat-assets","outbounds":["direct","proxy"],"type":"selector"},
     {"tag":"vrchat","outbounds":["proxy","direct"],"type":"selector"},
     {"tag":"wahlap","outbounds":["direct","lxns"],"type":"selector"},
-    {"tag":"geph","server_port":9909,"server":"127.0.0.1","type":"socks","version":"5"},
+    {"tag":"geph","server_port":9909,"server":"127.0.0.1","type":"socks"},
     {"tag":"lxns","server_port":8080,"server":"proxy.maimai.lxns.net","type":"http"},
-    {"tag":"other","server_port":8080,"server":"127.0.0.1","type":"socks","version":"5"},
+    {"tag":"other","server_port":8080,"server":"127.0.0.1","type":"socks"},
     {"tag":"direct","type":"direct"}
   ],
   "inbounds":[
@@ -237,15 +235,15 @@
       "auto_route": true,
       // "auto_redirect": true,
       "strict_route": false,
-      // "exclude_mptcp": true,
-      // "loopback_address": "10.7.0.1",
+      "exclude_mptcp": true,
+      "loopback_address": "10.7.0.1",
       // "route_exclude_address_set": ["geoip-cn"],
       "platform":{"http_proxy": {"server": "127.0.0.1","server_port": 7890,"enabled": true}},
       "type": "tun"
     },
     // {"tag":"tproxy","type":"tproxy","listen":"::","listen_port":7893},
     // {"tag":"redirect","type":"redirect","listen":"::","listen_port":7892},
-    // {"tag":"dns","type":"direct","listen":"::","listen_port":7891},
+    // {"tag":"dns","type":"socks","listen":"0.0.0.0","listen_port":7891},
     {"tag":"mixed","type":"mixed","listen":"::","listen_port":7890}
   ],
   "services":[
