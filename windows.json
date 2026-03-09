@@ -12,6 +12,7 @@
 
       // ------- tailscale -------
       // {"ip_cidr":["100.64.0.0/10","fd7a:115c:a1e0::/48"],"outbound":"tailscale"},
+      // {"ip_cidr":["100.64.0.0/10","fd7a:115c:a1e0::/48"],"action":"bypass"},
 
       // ------- bypass local -------
       {"ip_is_private": true,"action":"bypass"},
@@ -22,7 +23,7 @@
       {"protocol":"dns","action":"hijack-dns"},
 
       // ------- bypass front proxy -------
-      {"rule_set":"rule-geph-broker", "outbound":"direct"},
+      // {"rule_set":"rule-geph-broker", "outbound":"direct"},
       {"rule_set":"rule-process","outbound":"direct"},
 
       // // ------- block unsupport protocol -------
@@ -87,7 +88,7 @@
       {"tag":"rule-vrchat","rules":[{"domain_suffix":["vrchat.com"]}]},
       // {"tag":"rule-wahlap","rules":[{"domain_suffix":["wahlap.com"]}]},
       // {"tag":"rule-googlefcm","rules":[{"domain_suffix":["mobile-gtalk6.l.google.com","mobile-gtalk4.l.google.com","mobile-gtalk.l.google.com"]}]},
-      {"tag":"rule-geph-broker","rules":[{"domain":["lambda.us-east-1.amazonaws.com","www.vuejs.org","www.cdn77.com"]}]},
+      // {"tag":"rule-geph-broker","rules":[{"domain":["lambda.us-east-1.amazonaws.com","www.vuejs.org","www.cdn77.com"]}]},
       {"tag":"rule-process","rules":[{"process_name":["tailscaled","tailscaled.exe","mihomo","mihomo.exe","geph4-client","geph4-client.exe","gephgui-wry","gephgui-wry.exe","geph5-client-gui","geph5-client-gui.exe","geph5-client","geph5-client.exe","sing-box.exe","sing-box"]}]},
 
       // {"tag":"geosite-category-httpdns-cn","url":"https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/category-httpdns-cn.srs","download_detour":"direct","type":"remote"},
@@ -132,7 +133,7 @@
       // {"rule_set":"geosite-private","server":"local"},
 
       // ------- bypass front proxy -------
-      {"rule_set":"rule-geph-broker","server":"direct"},
+      // {"rule_set":"rule-geph-broker","server":"direct"},
       {"rule_set":"rule-process","server":"direct"},
 
       // ------- ad -------
@@ -244,7 +245,7 @@
     {
       "tag": "tun",
       "address": [
-        // "fd00::1/126",
+        "fd00::1/126",
         "172.19.0.1/30"
       ],
       "auto_route": true,

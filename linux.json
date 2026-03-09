@@ -12,6 +12,7 @@
 
       // ------- tailscale -------
       // {"ip_cidr":["100.64.0.0/10","fd7a:115c:a1e0::/48"],"outbound":"tailscale"},
+      // {"ip_cidr":["100.64.0.0/10","fd7a:115c:a1e0::/48"],"action":"bypass"},
 
       // ------- bypass local -------
       {"ip_is_private": true,"action":"bypass"},
@@ -244,7 +245,7 @@
     {
       "tag": "tun",
       "address": [
-        // "fd00::1/126",
+        "fd00::1/126",
         "172.19.0.1/30"
       ],
       "auto_route": true,
