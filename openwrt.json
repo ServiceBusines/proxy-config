@@ -117,7 +117,7 @@
   "dns":{
     // "final":"proxy",
     "strategy":"ipv4_only",
-    // "reverse_mapping":true,
+    "reverse_mapping":true,
     // "independent_cache":true,
     "rules":[
       // // ------- block ipv6 if no public ip -------

@@ -118,7 +118,7 @@
     // "final":"proxy",
     "strategy":"ipv4_only",
     // "reverse_mapping":true,
-    // "independent_cache":true,
+    "independent_cache":true,
     "rules":[
       // // ------- block ipv6 if no public ip -------
       // {"type":"logical","mode":"and","rules":[
