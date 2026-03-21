@@ -48,10 +48,11 @@
       // {"rule_set":"geoip-telegram","outbound":"proxy"},
       // {"rule_set":["geosite-googlefcm","rule-googlefcm"],"outbound":"googlefcm"},
       // {"rule_set":"geosite-onedrive","outbound":"onedrive"},
-      // {"rule_set":"rule-wahlap","outbound":"wahlap"},
+      {"rule_set":"rule-wahlap","outbound":"wahlap"},
+      {"rule_set":"geoip-as199524","port":[27001,27002],"network":"udp","outbound":"vrchat-udp"},
       {"rule_set":"rule-vrchat-assets","outbound":"vrchat-assets"},
       {"rule_set":"rule-vrchat-direct","outbound":"direct"},
-      {"rule_set":"rule-vrchat","outbound":"vrchat"},
+      // {"rule_set":"rule-vrchat","outbound":"vrchat"},
 
       // // ------- gfw and blacklist -------
       // {"type":"logical","mode":"or","rules":[
@@ -68,7 +69,7 @@
       // ],"outbound":"direct"},
 
       // ------- whilelist -------
-      {"rule_set":"geosite-geolocation-!cn@cn","outbound":"direct"},
+      // {"rule_set":"geosite-geolocation-!cn@cn","outbound":"direct"},
       // {"rule_set":["geosite-steam@cn","geosite-apple-cn"],"outbound":"direct"},
       {"rule_set":"geosite-cn","outbound":"direct"},
       // ------- check ip -------
@@ -84,9 +85,9 @@
     ],
     "rule_set":[
       {"tag":"rule-vrchat-assets","rules":[{"domain":["files.vrchat.cloud","file-variants.vrchat.cloud","assets.vrchat.com"]}]},
-      {"tag":"rule-vrchat-direct","rules":[{"domain_suffix":["vrchat.cloud","biliplayer.91vrchat.com"]}]},
-      {"tag":"rule-vrchat","rules":[{"domain_suffix":["vrchat.com"]}]},
-      // {"tag":"rule-wahlap","rules":[{"domain_suffix":["wahlap.com"]}]},
+      {"tag":"rule-vrchat-direct","rules":[{"domain_suffix":["vrchat.cloud"]}]},
+      // {"tag":"rule-vrchat","rules":[{"domain_suffix":["vrchat.com"]}]},
+      {"tag":"rule-wahlap","rules":[{"domain_suffix":["wahlap.com"]}]},
       // {"tag":"rule-googlefcm","rules":[{"domain_suffix":["mobile-gtalk6.l.google.com","mobile-gtalk4.l.google.com","mobile-gtalk.l.google.com"]}]},
       // {"tag":"rule-geph-broker","rules":[{"domain":["lambda.us-east-1.amazonaws.com","www.vuejs.org","www.cdn77.com"]}]},
       // {"tag":"rule-process","rules":[{"process_name":["tailscaled","tailscaled.exe","mihomo","mihomo.exe","geph4-client","geph4-client.exe","gephgui-wry","gephgui-wry.exe","geph5-client-gui","geph5-client-gui.exe","geph5-client","geph5-client.exe","sing-box.exe","sing-box"]}]},
@@ -103,11 +104,12 @@
       // {"tag":"geosite-category-games@cn","url":"https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/category-games-cn.srs","download_detour":"direct","type":"remote"},
       // {"tag":"geosite-microsoft@cn","url":"https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/microsoft@cn.srs","download_detour":"direct","type":"remote"},
       // {"tag":"geosite-apple@cn","url":"https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/apple@cn.srs","download_detour":"direct","type":"remote"},
-      {"tag":"geosite-geolocation-!cn@cn","url":"https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geolocation-!cn@cn.srs","download_detour":"direct","type":"remote"},
+      // {"tag":"geosite-geolocation-!cn@cn","url":"https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geolocation-!cn@cn.srs","download_detour":"direct","type":"remote"},
       {"tag":"geosite-geolocation-!cn","url":"https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geolocation-!cn.srs","download_detour":"direct","type":"remote"},
       {"tag":"geosite-cn","url":"https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/cn.srs","download_detour":"direct","type":"remote"},
-      // {"tag":"geosite-private","url":"https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/private.srs","download_detour":"direct","type":"remote"},
+      {"tag":"geosite-private","url":"https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/private.srs","download_detour":"direct","type":"remote"},
 
+      {"tag":"geoip-as199524","url":"https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/asn/AS199524.srs","download_detour":"direct","type":"remote"},
       // {"tag":"geoip-telegram","url":"https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/geoip/release/srs/telegram.srs","download_detour":"direct","type":"remote"},
       {"tag":"geoip-cn","url":"https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/geoip/release/srs/cn.srs","download_detour":"direct","type":"remote"},
 
@@ -116,8 +118,8 @@
   },
   "dns":{
     // "final":"proxy",
-    "strategy":"ipv4_only",
-    // "reverse_mapping":true,
+    // "strategy":"ipv4_only",
+    "reverse_mapping":true,
     "independent_cache":true,
     "rules":[
       // // ------- block ipv6 if no public ip -------
@@ -130,7 +132,7 @@
       // {"ip_accept_any":true,"server":"hosts"},
 
       // ------- bypass local -------
-      // {"rule_set":"geosite-private","server":"local"},
+      {"rule_set":"geosite-private","server":"local"},
 
       // ------- bypass front proxy -------
       // {"rule_set":"rule-geph-broker","server":"direct"},
@@ -142,10 +144,10 @@
       // ------- specific service -------
       // {"rule_set":["geosite-googlefcm","rule-googlefcm"],"server":"googlefcm"},
       // {"rule_set":"geosite-onedrive","server":"onedrive"},
-      // {"rule_set":"rule-wahlap","server":"direct"},
+      {"rule_set":"rule-wahlap","server":"direct"},
       {"rule_set":"rule-vrchat-assets","server":"vrchat-assets"},
       {"rule_set":"rule-vrchat-direct","server":"direct"},
-      {"rule_set":"rule-vrchat","server":"vrchat"},
+      // {"rule_set":"rule-vrchat","server":"vrchat"},
 
       // // ------- gfw/blacklist -------
       // // ------- fakeip -------
@@ -177,7 +179,7 @@
 
       // ------- whilelist -------
       // ------- bypass cn -------
-      {"rule_set":"geosite-geolocation-!cn@cn","server":"direct"},
+      // {"rule_set":"geosite-geolocation-!cn@cn","server":"direct"},
       // {"rule_set":["geosite-steam@cn","geosite-apple-cn"],"server":"direct"},
       {"rule_set":"geosite-cn","server":"direct"},
       // ------- 2nd check cn ip -------
@@ -208,7 +210,7 @@
       // {"query_type":["AAAA","A"],"clash_mode":"whilelist_fakeip","server":"fakeip"},
 
       // ------- final -------
-      {"server":"proxy"},
+      {"strategy":"ipv4_only","server":"proxy"},
 
       {"domain":"end.end","action":"predefined","rcode":"NOERROR","answer":"one.one.one.one. IN A 1.1.1.1"}
     ],
@@ -218,8 +220,8 @@
       // {"tag":"googlefcm","detour":"googlefcm","server":"dns.alidns.com","domain_resolver":"hosts","type":"https"},
       // {"tag":"onedrive","detour":"onedrive","server":"dns.alidns.com","domain_resolver":"hosts","type":"https"},
       {"tag":"vrchat-assets","detour":"vrchat-assets","server":"dns.alidns.com","domain_resolver":"hosts","type":"https"},
-      {"tag":"vrchat","detour":"vrchat","server":"dns.google","domain_resolver":"hosts","type":"https"},
-      {"tag":"direct","server":"dns.alidns.com","domain_resolver":"hosts","type":"https"},
+      // {"tag":"vrchat","detour":"vrchat","server":"dns.google","domain_resolver":"hosts","type":"https"},
+      {"tag":"direct","server":"dns.alidns.com","domain_resolver":"hosts","type":"h3"},
       {"tag":"local","prefer_go":false,"type":"local"},
       // {"tag":"local","bind_interface":"pppoe-wan","prefer_go":false,"type":"local"},
       // {"tag":"dhcp","type":"dhcp"},
@@ -233,19 +235,22 @@
     {"tag":"proxy","outbounds":["geph","other"],"type":"selector"},
     // {"tag":"googlefcm","outbounds":["direct","proxy"],"type":"selector"},
     // {"tag":"onedrive","outbounds":["direct","proxy"],"type":"selector"},
+    {"tag":"vrchat-udp","outbounds":["direct","proxy"],"type":"selector"},
     {"tag":"vrchat-assets","outbounds":["direct","proxy"],"type":"selector"},
-    {"tag":"vrchat","outbounds":["proxy","direct"],"type":"selector"},
-    // {"tag":"wahlap","outbounds":["direct","lxns"],"type":"selector"},
-    // {"tag":"lxns","server_port":8080,"server":"proxy.maimai.lxns.net","type":"http"},
+    // {"tag":"vrchat","outbounds":["proxy","direct"],"type":"selector"},
+    {"tag":"wahlap","outbounds":["direct","lxns"],"type":"selector"},
+    {"tag":"lxns","server_port":8080,"server":"proxy.maimai.lxns.net","type":"http"},
     {"tag":"geph","server_port":9909,"server":"127.0.0.1","type":"socks"},
     {"tag":"other","server_port":8080,"server":"127.0.0.1","type":"socks"},
-    {"tag":"direct","type":"direct"}
+    {"tag":"direct","outbounds":["direct-v4","direct-v6"],"type":"selector"},
+    {"tag":"direct-v6","domain_resolver":{"strategy":"prefer_ipv6","server":"local"},"type":"direct"},
+    {"tag":"direct-v4","type":"direct"}
   ],
   "inbounds":[
     // {
     //   "tag": "tun",
     //   "address": [
-    //     "fd00::1/126",
+    //     // "fd00::1/126",
     //     "172.19.0.1/30"
     //   ],
     //   "auto_route": true,
