@@ -16,6 +16,7 @@
 
       // ------- bypass local -------
       {"ip_is_private": true,"action":"bypass"},
+      {"rule_set":"geosite-private","outbound":"direct"},
 
       // ------- dns -------
       {"port":53,"action":"hijack-dns"},
@@ -289,7 +290,7 @@
     // {"tag":"resolved","type":"resolved"}
   ],
   "ntp":{
-    // "enabled":true,
+    "enabled":true,
     "domain_resolver":"hosts",
     "server":"time.cloudflare.com",
     // "server":"time.apple.com",
