@@ -46,7 +46,8 @@
       // {"rule_set":"geosite-geolocation-!cn@cn","outbound":"direct"},
       {"rule_set":"geosite-cn","outbound":"direct"},
       // ------- check ip -------
-      {"inbound":"mixed","invert":true,"action":"resolve"},
+      // {"inbound":"mixed","invert":true,"action":"resolve"},
+      {"action":"resolve"},
       // ------- bypass cn ip -------
       {"clash_mode":"whilelist_leak","rule_set":"geoip-cn","outbound":"direct"},
       {"type":"logical","mode":"and","rules":[
