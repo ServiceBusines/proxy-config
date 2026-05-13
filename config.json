@@ -15,7 +15,7 @@
       // {"ip_cidr":["100.64.0.0/10","fd7a:115c:a1e0::/48"],"action":"bypass"},
 
       // ------- bypass local -------
-      {"ip_is_private": true,"action":"bypass"},
+      {"ip_is_private":true,"action":"bypass"},
       {"rule_set":"geosite-private","outbound":"direct"},
 
       // ------- dns -------
@@ -24,7 +24,7 @@
       {"inbound":"mixed","invert":true,"action":"sniff"},
       {"protocol":"dns","action":"hijack-dns"},
 
-      {"ip_is_private": true,"action":"bypass"},
+      {"ip_is_private":true,"action":"bypass"},
 
       // ------- bypass front proxy -------
       // {"rule_set":"rule-geph-broker", "outbound":"direct"},
@@ -116,33 +116,30 @@
       {"rule_set":"rule-vrchat-media","server":"vrchat-media"},
       // {"rule_set":"rule-vrchat","server":"vrchat"},
 
+
+      // ------- bypass cn -------
       {"rule_set":"geosite-cn","server":"direct"},
+
       // ------- 2nd check cn ip -------
-      // {"type":"logical","mode":"and","rules":[
-      //   {"rule_set":"geosite-geolocation-!cn","invert":true},
-      //   {"rule_set":"geoip-cn"},
-      //   {"type":"logical","mode":"or","rules":[
-      //     {"clash_mode":"whilelist_fakeip"},
-      //     {"clash_mode":"whilelist"}
-      //   ]}
-      // ],"client_subnet":"202.103.192.0/18","server":"subnet"},
-      // ------- fallback -------
+      // {"clash_mode":"whilelist_leak","action":"evaluate","server":"direct"},
+      // {"clash_mode":"whilelist","client_subnet":"202.103.192.0/18",,"action":"evaluate""server":"proxy"},
+      // {"rule_set":"geoip-cn","match_response":true,"server":"local"},
+
+      // ------- final -------
       {"type":"logical","mode":"and","rules":[
         {"rule_set":"geosite-geolocation-!cn","invert":true},
-        {"rule_set":"geoip-cn"},
         {"clash_mode":"whilelist"}
-      ],"server":"proxy"},
+      ],"action":"evaluate","server":"proxy"},
       {"type":"logical","mode":"and","rules":[
         {"rule_set":"geosite-geolocation-!cn","invert":true},
-        {"rule_set":"geoip-cn"},
         {"clash_mode":"whilelist_leak"}
-      ],"server":"direct"},
+      ],"action":"evaluate","server":"direct"},
 
       // ------- fakeip -------
       // {"query_type":["AAAA","A"],"clash_mode":"whilelist_fakeip","server":"fakeip"},
 
       // ------- final -------
-      {"strategy":"ipv4_only","server":"proxy"},
+      {"query_type":"A","action":"respond"},
 
       {"domain":"end.end","action":"predefined","rcode":"NOERROR","answer":"one.one.one.one. IN A 1.1.1.1"}
     ],
@@ -189,24 +186,24 @@
   ],
   "inbounds":[
     // {
-    //   "tag": "tun",
-    //   "address": [
+    //   "tag":"tun",
+    //   "address":[
     //     "fdfe:dcba:9876::1/126",
     //     "172.18.0.1/30"
     //   ],
     //   "dns_mode":"native",
-    //   "dns_address": [
-    //     "fdfe:dcba:9876::2",
-    //     "172.18.0.2"
-    //   ],
-    //   "auto_route": true,
-    //   "auto_redirect": true,
-    //   "strict_route": false,
-    //   "exclude_mptcp": true,
-    //   "loopback_address": "10.7.0.1",
-    //   // "route_exclude_address_set": ["geoip-cn"],
-    //   "platform":{"http_proxy": {"server": "127.0.0.1","server_port": 7890,"enabled": true}},
-    //   "type": "tun"
+    //   // "dns_address":[
+    //   //   "fdfe:dcba:9876::2",
+    //   //   "172.18.0.2"
+    //   // ],
+    //   "auto_route":true,
+    //   "auto_redirect":true,
+    //   "strict_route":false,
+    //   "exclude_mptcp":true,
+    //   "loopback_address":"10.7.0.1",
+    //   // "route_exclude_address_set":["geoip-cn"],
+    //   "platform":{"http_proxy":{"server":"127.0.0.1","server_port":7890,"enabled":true}},
+    //   "type":"tun"
     // },
     // {"tag":"tproxy","type":"tproxy","listen":"::","listen_port":7893},
     // {"tag":"redirect","type":"redirect","listen":"::","listen_port":7892},
@@ -225,9 +222,9 @@
   ],
   "ntp":{
     "enabled":true,
-    "domain_resolver":"hosts",
-    "server":"time.cloudflare.com",
-    // "server":"time.apple.com",
+    // "domain_resolver":"hosts",
+    // "server":"time.cloudflare.com",
+    "server":"time.apple.com",
     "server_port":123
   },
   "log":{
