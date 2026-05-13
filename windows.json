@@ -121,9 +121,9 @@
       {"rule_set":"geosite-cn","server":"direct"},
 
       // ------- 2nd check cn ip -------
-      // {"clash_mode":"whilelist_leak","action":"evaluate","server":"direct"},
-      // {"clash_mode":"whilelist","client_subnet":"202.103.192.0/18",,"action":"evaluate""server":"proxy"},
-      // {"rule_set":"geoip-cn","match_response":true,"server":"local"},
+      {"clash_mode":"whilelist_leak","action":"evaluate","server":"direct"},
+      {"clash_mode":"whilelist","client_subnet":"202.103.192.0/18",,"action":"evaluate""server":"proxy"},
+      {"rule_set":"geoip-cn","match_response":true,"server":"local"},
 
       // ------- final -------
       {"type":"logical","mode":"and","rules":[
