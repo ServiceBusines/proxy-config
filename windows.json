@@ -2,6 +2,7 @@
   "route":{
     // "final":"proxy",
     "default_domain_resolver":"direct",
+    "default_http_client": "direct",
     "auto_detect_interface":true,
     "rules":[
       // ------- block ipv6 if no public ip -------
@@ -16,7 +17,6 @@
 
       // ------- bypass local -------
       {"ip_is_private":true,"action":"bypass"},
-      {"rule_set":"geosite-private","outbound":"direct"},
 
       // ------- dns -------
       {"port":53,"action":"hijack-dns"},
@@ -24,7 +24,8 @@
       {"inbound":"mixed","invert":true,"action":"sniff"},
       {"protocol":"dns","action":"hijack-dns"},
 
-      {"ip_is_private":true,"action":"bypass"},
+      {"ip_is_private":true,"action":"direct"},
+      {"rule_set":"geosite-private","outbound":"direct"},
 
       // ------- bypass front proxy -------
       // {"rule_set":"rule-geph-broker", "outbound":"direct"},
@@ -94,11 +95,10 @@
       //   {"default_interface_address":["2000::/3"],"invert":true}
       // ],"action":"reject"},
 
-      {"domain":"test.test","action":"predefined","rcode":"NOERROR","answer":"one.one.one.one. IN A 1.1.1.1"},
       {"preferred_by":"hosts","server":"hosts"},
 
       // ------- bypass local -------
-      {"preferred_by":"local","server":"local"},
+      {"preferred_by":"mdns","server":"mdns"},
       {"rule_set":"geosite-private","server":"local"},
 
       // ------- bypass front proxy -------
@@ -117,30 +117,23 @@
       {"rule_set":"rule-vrchat-media","server":"vrchat-media"},
       // {"rule_set":"rule-vrchat","server":"vrchat"},
 
-
       // ------- bypass cn -------
       {"rule_set":"geosite-cn","server":"direct"},
+      {"rule_set":"geosite-geolocation-!cn","server":"proxy"},
 
-      // ------- 2nd check cn ip -------
+      // ------- unknows domain -------
       {"clash_mode":"whilelist_leak","action":"evaluate","server":"direct"},
       {"clash_mode":"whilelist","client_subnet":"202.103.192.0/18","action":"evaluate","server":"proxy"},
+
+      // ------- try get local cdn -------
       {"rule_set":"geoip-cn","match_response":true,"server":"local"},
 
-      // ------- final -------
-      {"type":"logical","mode":"and","rules":[
-        {"rule_set":"geosite-geolocation-!cn","invert":true},
-        {"clash_mode":"whilelist"}
-      ],"action":"evaluate","server":"proxy"},
-      {"type":"logical","mode":"and","rules":[
-        {"rule_set":"geosite-geolocation-!cn","invert":true},
-        {"clash_mode":"whilelist_leak"}
-      ],"action":"evaluate","server":"direct"},
-
       // ------- fakeip -------
-      // {"query_type":["AAAA","A"],"clash_mode":"whilelist_fakeip","server":"fakeip"},
+      {"query_type":["AAAA","A"],"clash_mode":"whilelist_fakeip","server":"fakeip"},
 
       // ------- final -------
       {"query_type":"A","action":"respond"},
+      {"query_type":"AAAA","rcode": "NOERROR","action":"predefined"},
 
       {"domain":"end.end","action":"predefined","rcode":"NOERROR","answer":"one.one.one.one. IN A 1.1.1.1"}
     ],
@@ -153,12 +146,12 @@
       {"tag":"vrchat-api","detour":"vrchat-api","server":"dns.alidns.com","domain_resolver":"hosts","type":"https"},
       {"tag":"vrchat-media","detour":"vrchat-media","server":"dns.alidns.com","domain_resolver":"hosts","type":"https"},
       // {"tag":"vrchat","detour":"vrchat","server":"dns.google","domain_resolver":"hosts","type":"https"},
-      // {"tag":"direct","server":"dns.alidns.com","domain_resolver":"hosts","type":"h3"},
-      {"tag":"direct","type":"local"},
-      {"tag":"local","neighbor_domain":[".",".lan",".local"],"type":"local"},
+      {"tag":"direct","server":"dns.alidns.com","domain_resolver":"hosts","type":"h3"},
+      // {"tag":"direct","type":"local"},
+      {"tag":"local","type":"local"},
       // {"tag":"dhcp","type":"dhcp"},
-      // {"tag":"mdns","type":"mdns"},
-      // {"tag":"fakeip","inet4_range":"198.18.0.0/15","inet6_range":"fc00::/18","type":"fakeip"},
+      {"tag":"mdns","type":"mdns"},
+      {"tag":"fakeip","inet4_range":"198.18.0.0/15","inet6_range":"fc00::/18","type":"fakeip"},
       // {"tag":"resolved","type":"resolved","service":"resolved","accept_default_resolvers":false},
       // {"tag":"tailscale","type":"tailscale","endpoint":"tailscale","accept_default_resolvers":false},
       {"tag":"hosts","predefined":{"localhost":["127.0.0.1","::1"],"time.cloudflare.com":["162.159.200.123","162.159.200.1"],"dns.pub":["1.12.12.21","120.53.53.53"],"dns.alidns.com":["223.5.5.5","223.6.6.6"],"dns.google":["8.8.8.8", "8.8.4.4"],"dns.cloudflare.com":["104.16.132.229","104.16.133.229"],"cloudflare-dns.com":["104.16.248.249","104.16.249.249"]},"type":"hosts"}
