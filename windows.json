@@ -123,7 +123,6 @@
       // ------- unknows domain -------
       {"clash_mode":"whilelist_leak","action":"evaluate","server":"direct"},
       {"clash_mode":"whilelist","client_subnet":"202.103.192.0/18","action":"evaluate","server":"proxy"},
-
       // ------- try get local cdn -------
       {"rule_set":"geoip-cn","match_response":true,"server":"local"},
 
