@@ -50,7 +50,7 @@
       // {"inbound":"mixed","invert":true,"action":"resolve"},
       {"action":"resolve"},
       // ------- bypass cn ip -------
-      {"clash_mode":"whilelist_leak","rule_set":"geoip-cn","outbound":"direct"},
+      // {"clash_mode":"whilelist_leak","rule_set":"geoip-cn","outbound":"direct"},
       {"type":"logical","mode":"and","rules":[
         {"rule_set":"geosite-geolocation-!cn","invert":true},
         {"rule_set":"geoip-cn"}
