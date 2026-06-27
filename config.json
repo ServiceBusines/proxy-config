@@ -121,7 +121,7 @@
       
       {"rule_set":["rule-vrchat-assets","rule-vrchat-dot-cloud","rule-vrchat-video-player"],"server":"direct"},
       {"rule_set":"rule-vrchat-dot-com","server":"proxy"},
-      // {"rule_set":"rule-steam-download","server":"direct"},
+      {"rule_set":"rule-steam-download","server":"direct"},
       {"rule_set":"rule-steamdb","server":"direct"},
       {"rule_set":"rule-hackernews","server":"proxy"},
       {"rule_set":"geosite-connectivity-check","server":"direct"},
