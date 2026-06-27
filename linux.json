@@ -34,36 +34,43 @@
       {"rule_set":["geosite-category-httpdns-cn","geosite-category-ads-all","rule-custom-block"],"action":"reject"},
 
       // ------- specific service -------
-      {"rule_set":"rule-hackernews","outbound":"proxy"},
-      // {"rule_set":"geoip-telegram","outbound":"proxy"},
       {"rule_set":["geosite-googlefcm","rule-googlefcm"],"outbound":"googlefcm"},
       // {"rule_set":"geosite-onedrive","outbound":"onedrive"},
       {"rule_set":"rule-wahlap","outbound":"wahlap"},
       {"rule_set":"geoip-as199524","port":[27001,27002],"network":"udp","outbound":"vrchat-udp"},
       {"rule_set":"rule-vrchat-assets","outbound":"vrchat-assets"},
       {"rule_set":"rule-vrchat-api","outbound":"vrchat-api"},
-      {"rule_set":"rule-vrchat-media","outbound":"vrchat-media"},
+      {"rule_set":"rule-vrchat-video-player","outbound":"vrchat-media"},
       // {"rule_set":"rule-vrchat","outbound":"vrchat"},
 
+      {"rule_set":"rule-steam-download","outbound":"direct"},
+      // {"rule_set":"geoip-as32590","outbound":"direct"},
+      {"rule_set":"rule-steamdb","outbound":"direct"},
+      {"rule_set":"rule-hackernews","outbound":"proxy"},
+      // {"rule_set":"geoip-telegram","outbound":"proxy"},
+      {"rule_set":"geosite-connectivity-check","outbound":"direct"},
       {"rule_set":"geosite-geolocation-!cn@cn","outbound":"direct"},
       {"rule_set":"geosite-cn","outbound":"direct"},
+      {"rule_set":"geosite-geolocation-!cn","outbound":"proxy"},
       // ------- check ip -------
       // {"inbound":"mixed","invert":true,"action":"resolve"},
       {"action":"resolve"},
       // ------- bypass cn ip -------
-      // {"clash_mode":"whilelist_leak","rule_set":"geoip-cn","outbound":"direct"},
-      {"type":"logical","mode":"and","rules":[
-        {"rule_set":"geosite-geolocation-!cn","invert":true},
-        {"rule_set":"geoip-cn"}
-      ],"outbound":"direct"},
+      // {"type":"logical","mode":"and","rules":[
+      //   {"rule_set":"geosite-geolocation-!cn","invert":true},
+      //   {"rule_set":"geoip-cn"}
+      // ],"outbound":"direct"},
+      {"rule_set":"geoip-cn","outbound":"direct"},
 
       {"outbound":"proxy"}
     ],
     "rule_set":[
+      {"tag":"rule-steam-download","rules":[{"domain":["steamcdn-a.akamaihd.net"],"domain_suffix":["cm.steampowered.com","steamserver.net"]}]},
+      {"tag":"rule-steamdb","rules":[{"domain":["steamdb.info"]}]},
       {"tag":"rule-hackernews","rules":[{"domain":["news.ycombinator.com"]}]},
       {"tag":"rule-vrchat-assets","rules":[{"domain":["files.vrchat.cloud","file-variants.vrchat.cloud"]}]},
       {"tag":"rule-vrchat-api","rules":[{"domain_suffix":["vrchat.cloud"]}]},
-      {"tag":"rule-vrchat-media","rules":[{"domain_suffix":["kft.vrchat.org.cn","bil.ouo.chat","biliplayer.91vrchat.com","vip.ffzy-plays.com","api.ffzyapi.com","bilibili-real-url.deno.dev"]}]},
+      {"tag":"rule-vrchat-video-player","rules":[{"domain":["kft.vrchat.org.cn","bil.ouo.chat","biliplayer.91vrchat.com","vip.ffzy-plays.com","api.ffzyapi.com","bilibili-real-url.deno.dev"]}]},
       // {"tag":"rule-vrchat","rules":[{"domain_suffix":["vrchat.com"]}]},
       {"tag":"rule-wahlap","rules":[{"domain_suffix":["wahlap.com"]}]},
       {"tag":"rule-googlefcm","rules":[{"domain_suffix":["mobile-gtalk6.l.google.com","mobile-gtalk4.l.google.com","mobile-gtalk.l.google.com"]}]},
@@ -73,11 +80,13 @@
       {"tag":"geosite-category-httpdns-cn","url":"https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/category-httpdns-cn.srs","type":"remote"},
       {"tag":"geosite-category-ads-all","url":"https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/category-ads-all.srs","type":"remote"},
       {"tag":"geosite-googlefcm","url":"https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/googlefcm.srs","type":"remote"},
+      {"tag":"geosite-connectivity-check","url":"https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/connectivity-check.srs","type":"remote"},
       {"tag":"geosite-geolocation-!cn","url":"https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geolocation-!cn.srs","type":"remote"},
       {"tag":"geosite-geolocation-!cn@cn","url":"https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geolocation-!cn@cn.srs","type":"remote"},
       {"tag":"geosite-cn","url":"https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/cn.srs","type":"remote"},
       {"tag":"geosite-private","url":"https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/private.srs","type":"remote"},
 
+      // {"tag":"geoip-as32590","url":"https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/asn/AS32590.srs","type":"remote"},
       {"tag":"geoip-as199524","url":"https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/asn/AS199524.srs","type":"remote"},
       // {"tag":"geoip-telegram","url":"https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/geoip/release/srs/telegram.srs","type":"remote"},
       {"tag":"geoip-cn","url":"https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/geoip/release/srs/cn.srs","type":"remote"},
@@ -112,26 +121,27 @@
       // ------- specific service -------
       {"rule_set":["geosite-googlefcm","rule-googlefcm"],"server":"googlefcm"},
       // {"rule_set":"geosite-onedrive","server":"onedrive"},
-      {"rule_set":"rule-wahlap","server":"direct"},
+      {"rule_set":"rule-wahlap","server":"wahlap"},
       {"rule_set":"rule-vrchat-assets","server":"vrchat-assets"},
       {"rule_set":"rule-vrchat-api","server":"vrchat-api"},
-      {"rule_set":"rule-vrchat-media","server":"vrchat-media"},
+      {"rule_set":"rule-vrchat-video-player","server":"vrchat-media"},
       // {"rule_set":"rule-vrchat","server":"vrchat"},
 
-      // ------- bypass cn -------
+      {"rule_set":"rule-steam-download","server":"direct"},
+      {"rule_set":"rule-steamdb","server":"direct"},
+      {"rule_set":"rule-hackernews","server":"proxy"},
+      {"rule_set":"geosite-connectivity-check","server":"direct"},
       {"rule_set":"geosite-geolocation-!cn@cn","server":"direct"},
       {"rule_set":"geosite-cn","server":"direct"},
       {"rule_set":"geosite-geolocation-!cn","server":"proxy"},
 
       // ------- unknows domain -------
       {"action":"evaluate","server":"direct"},
-      // {"clash_mode":"whilelist_leak","action":"evaluate","server":"direct"},
-      // {"clash_mode":"whilelist","client_subnet":"202.103.192.0/18","action":"evaluate","server":"proxy"},
       // ------- try get local cdn -------
       {"rule_set":"geoip-cn","match_response":true,"server":"local"},
 
       // ------- fakeip -------
-      // {"query_type":["AAAA","A"],"clash_mode":"whilelist_fakeip","server":"fakeip"},
+      // {"query_type":["AAAA","A"],"server":"fakeip"},
 
       // ------- final -------
       {"query_type":"A","action":"respond"},
@@ -147,7 +157,6 @@
       {"tag":"vrchat-media","detour":"vrchat-media","server":"dns.alidns.com","domain_resolver":"hosts","type":"https"},
       // {"tag":"vrchat","detour":"vrchat","server":"dns.google","domain_resolver":"hosts","type":"https"},
       {"tag":"direct","server":"dns.alidns.com","domain_resolver":"hosts","type":"h3"},
-      // {"tag":"direct","type":"local"},
       {"tag":"local","type":"local"},
       // {"tag":"dhcp","type":"dhcp"},
       {"tag":"mdns","type":"mdns"},
@@ -216,19 +225,18 @@
     // {"tag":"resolved","type":"resolved"},
     {"tag":"api","secret":"thisIsPassword@","listen":"::","listen_port":9090,"type":"api"}
   ],
-  "ntp":{
-    // "enabled":true,
-    // "domain_resolver":"hosts",
-    // "server":"time.cloudflare.com",
-    "server":"time.apple.com",
-    "server_port":123
-  },
+  // "ntp":{
+  //   "enabled":true,
+  //   // "domain_resolver":"hosts",
+  //   // "server":"time.cloudflare.com",
+  //   "server":"time.apple.com",
+  //   "server_port":123
+  // },
   "log":{
     "timestamp":false,
-    "level":"trace"
+    "level":"info"
   },
   "experimental":{
-    // "clash_api":{"default_mode":"whilelist_leak","secret":"thisIsPassword@","external_controller":":9090"},
     "cache_file":{"path":"cache.db","store_fakeip":false,"store_dns":false,"enabled":true}
   }
 }
