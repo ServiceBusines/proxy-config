@@ -40,7 +40,7 @@
       {"rule_set":"geoip-as199524","port":[27001,27002],"network":"udp","outbound":"vrchat-udp"},
       {"rule_set":["rule-vrchat-assets","rule-vrchat-dot-cloud","rule-vrchat-video-player"],"outbound":"direct"},
       {"rule_set":"rule-vrchat-dot-com","outbound":"proxy"},
-      {"rule_set":"rule-steam-download","outbound":"direct"},
+      // {"rule_set":"rule-steam-download","outbound":"direct"},
       // {"rule_set":"geoip-as32590","outbound":"direct"},
       {"rule_set":"rule-steamdb","outbound":"direct"},
       {"rule_set":"rule-hackernews","outbound":"proxy"},
@@ -62,7 +62,7 @@
       {"outbound":"proxy"}
     ],
     "rule_set":[
-      {"tag":"rule-steam-download","rules":[{"domain":["steamcdn-a.akamaihd.net"],"domain_suffix":["cm.steampowered.com","steamserver.net"]}]},
+      // {"tag":"rule-steam-download","rules":[{"domain":["steamcdn-a.akamaihd.net"],"domain_suffix":["cm.steampowered.com","steamserver.net"]}]},
       {"tag":"rule-steamdb","rules":[{"domain":["steamdb.info"]}]},
       {"tag":"rule-hackernews","rules":[{"domain":["news.ycombinator.com"]}]},
       {"tag":"rule-vrchat-assets","rules":[{"domain":["files.vrchat.cloud","file-variants.vrchat.cloud"]}]},
@@ -121,7 +121,7 @@
       
       {"rule_set":["rule-vrchat-assets","rule-vrchat-dot-cloud","rule-vrchat-video-player"],"server":"direct"},
       {"rule_set":"rule-vrchat-dot-com","server":"proxy"},
-      {"rule_set":"rule-steam-download","server":"direct"},
+      // {"rule_set":"rule-steam-download","server":"direct"},
       {"rule_set":"rule-steamdb","server":"direct"},
       {"rule_set":"rule-hackernews","server":"proxy"},
       {"rule_set":"geosite-connectivity-check","server":"direct"},
