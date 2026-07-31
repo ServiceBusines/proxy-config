@@ -159,7 +159,7 @@
       {"tag":"direct","server":"dns.alidns.com","domain_resolver":"hosts","type":"h3"},
       {"tag":"local","type":"local"},
       // {"tag":"dhcp","type":"dhcp"},
-      {"tag":"mdns","type":"mdns"},
+      // {"tag":"mdns","type":"mdns"},
       // {"tag":"fakeip","inet4_range":"198.18.0.0/15","inet6_range":"fc00::/18","type":"fakeip"},
       // {"tag":"resolved","type":"resolved","service":"resolved","accept_default_resolvers":false},
       // {"tag":"tailscale","type":"tailscale","endpoint":"tailscale","accept_default_resolvers":false},
