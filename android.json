@@ -77,7 +77,7 @@
       {"tag":"rule-wahlap","rules":[{"domain_suffix":["wahlap.com"]}]},
       {"tag":"rule-googlefcm","rules":[{"domain_suffix":["mobile-gtalk6.l.google.com","mobile-gtalk4.l.google.com","mobile-gtalk.l.google.com"]}]},
       // {"tag":"rule-geph-broker","rules":[{"domain":["lambda.us-east-1.amazonaws.com","www.vuejs.org","www.cdn77.com"]}]},
-      // {"tag":"rule-process","rules":[{"process_name":["tailscaled","tailscaled.exe","mihomo","mihomo.exe","geph4-client","geph4-client.exe","gephgui-wry","gephgui-wry.exe","geph5-client-gui","geph5-client-gui.exe","geph5-client","geph5-client.exe","sing-box.exe","sing-box"]}]},
+      {"tag":"rule-process","rules":[{"process_name":["tailscaled","tailscaled.exe","mihomo","mihomo.exe","geph4-client","geph4-client.exe","gephgui-wry","gephgui-wry.exe","geph5-client-gui","geph5-client-gui.exe","geph5-client","geph5-client.exe","libgeph.so"]}]},
 
       {"tag":"geosite-geolocation-!cn@ads","url":"https://v6.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geolocation-!cn@ads.srs","type":"remote"},
       {"tag":"geosite-cn@ads","url":"https://v6.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/cn@ads.srs","type":"remote"},
@@ -198,9 +198,11 @@
       //   "172.18.0.2"
       // ],
       "auto_route":true,
-      "auto_redirect":true,
-      "strict_route":false,
-      "exclude_package": ["com.android.shell","com.termux"],
+      // "auto_redirect":true,
+      // "strict_route":true,
+      "exclude_uid":0,
+      "exclude_package":["com.android.shell","com.termux","mark.via"],
+      "interface_name":"wlan1",
       // "exclude_mptcp":true,
       // "loopback_address":"10.7.0.1",
       // "route_exclude_address_set":["geoip-cn"],
