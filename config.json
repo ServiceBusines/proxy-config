@@ -115,7 +115,7 @@
       {"preferred_by":"hosts","server":"hosts"},
 
       // ------- bypass local -------
-      {"preferred_by":"mdns","server":"mdns"},
+      // {"preferred_by":"mdns","server":"mdns"},
       {"rule_set":"geosite-private","server":"local"},
 
       // ------- bypass front proxy -------
