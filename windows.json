@@ -6,36 +6,18 @@
     "default_http_client": "direct",
     "auto_detect_interface":true,
     "rules":[
-      // ------- block ipv6 if no public ip -------
-      // {"type":"logical","mode":"and","rules":[
-      //     {"ip_version":6},
-      //     {"default_interface_address":["2000::/3"],"invert":true}
-      // ],"action":"reject"},
-
-      // ------- tailscale -------
-      // {"ip_cidr":["100.64.0.0/10","fd7a:115c:a1e0::/48"],"outbound":"tailscale"},
-      // {"ip_cidr":["100.64.0.0/10","fd7a:115c:a1e0::/48"],"action":"bypass"},
-
-      // ------- bypass local -------
+      {"port":53,"action":"hijack-dns"},
       {"ip_is_private":true,"action":"bypass"},
 
-      // ------- dns -------
-      {"port":53,"action":"hijack-dns"},
-      {"rule_set":"rule-process","outbound":"direct"},
       {"inbound":"mixed","invert":true,"action":"sniff"},
       {"protocol":"dns","action":"hijack-dns"},
-
-      {"ip_is_private":true,"outbound":"direct"},
       {"rule_set":"geosite-private","outbound":"direct"},
-
-      // ------- bypass front proxy -------
-      // {"rule_set":"rule-geph-broker", "outbound":"direct"},
+      {"rule_set":["rule-process-geph","rule-process-vpn"],"outbound":"direct"},
 
       // ------- ad -------
       {"rule_set":["geosite-category-httpdns-cn","geosite-category-ads-all","geosite-geolocation-!cn@ads","geosite-cn@ads","rule-custom-block"],"action":"reject"},
 
       // ------- specific service -------
-      {"rule_set":"rule-vrchat-video-piracy","outbound":"vrchat-video-piracy"},
       {"rule_set":["rule-github-releases","rule-github-releases"],"outbound":"github-releases"},
       {"rule_set":"rule-google-dl","outbound":"google-dl"},
       {"rule_set":["geosite-hcaptcha","rule-recaptcha","rule-cloudflare-turnstile"],"outbound":"captcha"},
@@ -44,8 +26,9 @@
       {"rule_set":"rule-wahlap","outbound":"wahlap"},
       {"rule_set":"geoip-as199524","port":[27001,27002],"network":"udp","outbound":"vrchat-udp"},
 
-      {"rule_set":["rule-vrchat-assets","rule-vrchat-dot-cloud","rule-vrchat-video-player"],"outbound":"direct"},
-      {"rule_set":"rule-vrchat-dot-com","outbound":"proxy"},
+      {"rule_set":"rule-piracy-stream","outbound":"proxy"},
+      {"rule_set":["rule-vrchat-assets","rule-vrchat-cloud","rule-video-parse"],"outbound":"direct"},
+      {"rule_set":"rule-vrchat-com","outbound":"proxy"},
       {"rule_set":"rule-steam-download","outbound":"direct"},
       // {"rule_set":"geoip-as32590","outbound":"direct"},
       {"rule_set":"rule-steamdb","outbound":"direct"},
@@ -76,36 +59,36 @@
       {"tag":"rule-steam-download","rules":[{"domain":["steamcdn-a.akamaihd.net"],"domain_suffix":["cm.steampowered.com","steamserver.net"]}]},
       {"tag":"rule-steamdb","rules":[{"domain":["steamdb.info"]}]},
       {"tag":"rule-hackernews","rules":[{"domain":["news.ycombinator.com"]}]},
+      {"tag":"rule-piracy-stream","rules":[{"domain":["svipsvip.ffzy-online5.com"]}]},
+      {"tag":"rule-video-parse","rules":[{"domain":["kft.vrchat.org.cn","bil.ouo.chat","biliplayer.91vrchat.com","bilibili-real-url.deno.dev"]}]},
       {"tag":"rule-vrchat-assets","rules":[{"domain":["files.vrchat.cloud","file-variants.vrchat.cloud"]}]},
-      {"tag":"rule-vrchat-dot-cloud","rules":[{"domain_suffix":["vrchat.cloud"]}]},
-      {"tag":"rule-vrchat-video-player","rules":[{"domain":["kft.vrchat.org.cn","bil.ouo.chat","biliplayer.91vrchat.com","bilibili-real-url.deno.dev"]}]},
-      {"tag":"rule-vrchat-video-piracy","rules":[{"domain":["play.xfvod.pro"]}]},
-      {"tag":"rule-vrchat-dot-com","rules":[{"domain_suffix":["vrchat.com"]}]},
+      {"tag":"rule-vrchat-cloud","rules":[{"domain_suffix":["vrchat.cloud"]}]},
+      {"tag":"rule-vrchat-com","rules":[{"domain_suffix":["vrchat.com"]}]},
       {"tag":"rule-wahlap","rules":[{"domain_suffix":["wahlap.com"]}]},
       {"tag":"rule-google-dl","rules":[{"domain_suffix":["dl.google.com"]}]},
       {"tag":"rule-googlefcm","rules":[{"domain_suffix":["mobile-gtalk6.l.google.com","mobile-gtalk4.l.google.com","mobile-gtalk.l.google.com"]}]},
-      // {"tag":"rule-geph-broker","rules":[{"domain":["lambda.us-east-1.amazonaws.com","www.vuejs.org","www.cdn77.com"]}]},
-      {"tag":"rule-process","rules":[{"process_name":["tailscaled","tailscaled.exe","mihomo","mihomo.exe","geph4-client","geph4-client.exe","gephgui-wry","gephgui-wry.exe","geph5-client-gui","geph5-client-gui.exe","geph5-client","geph5-client.exe","sing-box.exe","sing-box"]}]},
+      {"tag":"rule-geph-broker","rules":[{"domain":["lambda.us-east-1.amazonaws.com","kubernetes.io","www.cdn77.com"]}]},
+      {"tag":"rule-process-geph","rules":[{"process_name":["geph5-client.exe","geph5.exe"]}]},
+      {"tag":"rule-process-vpn","rules":[{"process_name":["tailsaled.exe","cloudflared.exe"]}]},
 
-      {"tag":"geosite-geolocation-!cn@ads","url":"https://v6.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geolocation-!cn@ads.srs","type":"remote"},
-      {"tag":"geosite-cn@ads","url":"https://v6.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/cn@ads.srs","type":"remote"},
-      {"tag":"geosite-category-httpdns-cn","url":"https://v6.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/category-httpdns-cn.srs","type":"remote"},
-      {"tag":"geosite-category-ads-all","url":"https://v6.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/category-ads-all.srs","type":"remote"},
+      {"tag":"geosite-geolocation-!cn@ads","url":"https://axisnow.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geolocation-!cn@ads.srs","type":"remote"},
+      {"tag":"geosite-cn@ads","url":"https://axisnow.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/cn@ads.srs","type":"remote"},
+      {"tag":"geosite-category-httpdns-cn","url":"https://axisnow.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/category-httpdns-cn.srs","type":"remote"},
+      {"tag":"geosite-category-ads-all","url":"https://axisnow.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/category-ads-all.srs","type":"remote"},
+      {"tag":"geosite-hcaptcha","url":"https://axisnow.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/hcaptcha.srs","type":"remote"},
+      {"tag":"geosite-deepseek","url":"https://axisnow.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/deepseek.srs","type":"remote"},
+      {"tag":"geosite-googlefcm","url":"https://axisnow.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/googlefcm.srs","type":"remote"},
+      {"tag":"geosite-connectivity-check","url":"https://axisnow.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/connectivity-check.srs","type":"remote"},
+      {"tag":"geosite-geolocation-!cn","url":"https://axisnow.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geolocation-!cn.srs","type":"remote"},
+      {"tag":"geosite-gfw","url":"https://axisnow.gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/gfw.srs","type":"remote"},
+      {"tag":"geosite-geolocation-!cn@cn","url":"https://axisnow.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geolocation-!cn@cn.srs","type":"remote"},
+      {"tag":"geosite-cn","url":"https://axisnow.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/cn.srs","type":"remote"},
+      {"tag":"geosite-private","url":"https://axisnow.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/private.srs","type":"remote"},
 
-      {"tag":"geosite-hcaptcha","url":"https://v6.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/hcaptcha.srs","type":"remote"},
-      {"tag":"geosite-deepseek","url":"https://v6.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/deepseek.srs","type":"remote"},
-      {"tag":"geosite-googlefcm","url":"https://v6.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/googlefcm.srs","type":"remote"},
-      {"tag":"geosite-connectivity-check","url":"https://v6.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/connectivity-check.srs","type":"remote"},
-      {"tag":"geosite-geolocation-!cn","url":"https://v6.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geolocation-!cn.srs","type":"remote"},
-      {"tag":"geosite-gfw","url":"https://v6.gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/gfw.srs","type":"remote"},
-      {"tag":"geosite-geolocation-!cn@cn","url":"https://v6.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/geolocation-!cn@cn.srs","type":"remote"},
-      {"tag":"geosite-cn","url":"https://v6.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/cn.srs","type":"remote"},
-      {"tag":"geosite-private","url":"https://v6.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/sing-geosite/rule-set/private.srs","type":"remote"},
-
-      // {"tag":"geoip-as32590","url":"https://v6.gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/asn/AS32590.srs","type":"remote"},
-      {"tag":"geoip-as199524","url":"https://v6.gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/asn/AS199524.srs","type":"remote"},
-      // {"tazg":"geoip-telegram","url":"https://v6.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/geoip/release/srs/telegram.srs","type":"remote"},
-      {"tag":"geoip-cn","url":"https://v6.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/geoip/release/srs/cn.srs","type":"remote"},
+      // {"tag":"geoip-as32590","url":"https://axisnow.gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/asn/AS32590.srs","type":"remote"},
+      {"tag":"geoip-as199524","url":"https://axisnow.gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/asn/AS199524.srs","type":"remote"},
+      // {"tag":"geoip-telegram","url":"https://axisnow.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/geoip/release/srs/telegram.srs","type":"remote"},
+      {"tag":"geoip-cn","url":"https://axisnow.gh-proxy.org/https://raw.githubusercontent.com/nekolsd/geoip/release/srs/cn.srs","type":"remote"},
 
       {"tag":"rule-custom-block","rules":[{"domain":["2fa.qwq2333.top","api.qwq2333.top"]}]}
     ]
@@ -115,42 +98,33 @@
     // "strategy":"ipv4_only",
     "reverse_mapping":true,
     "rules":[
-      // // ------- block ipv6 if no public ip -------
-      // {"type":"logical","mode":"and","rules":[
-      //   {"ip_version":6},
-      //   {"default_interface_address":["2000::/3"],"invert":true}
-      // ],"action":"reject"},
-
       {"preferred_by":"hosts","server":"hosts"},
-
-      // ------- bypass local -------
-      // {"preferred_by":"mdns","server":"mdns"},
       {"rule_set":"geosite-private","server":"local"},
-
-      // ------- bypass front proxy -------
-      // {"rule_set":"rule-geph-broker","server":"direct"},
-      {"rule_set":"rule-process","server":"direct"},
+      {"rule_set":"rule-geph-broker","server":"direct"},
+      {"rule_set":"rule-process-geph","server":"direct"},
+      {"rule_set":"rule-process-vpn","server":"direct"},
 
       // ------- ad -------
       {"rule_set":["geosite-category-httpdns-cn","geosite-category-ads-all","geosite-geolocation-!cn@ads","geosite-cn@ads","rule-custom-block"],"action":"reject"},
 
       // ------- specific service -------
-      {"rule_set":"rule-vrchat-video-piracy","server":"vrchat-video-piracy"},
       {"rule_set":"rule-google-dl","server":"google-dl"},
       {"rule_set":["geosite-googlefcm","rule-googlefcm"],"server":"googlefcm"},
-      {"rule_set":["rule-github-releases","rule-github-releases"],"server":"github-releases"},
+      {"rule_set":"rule-github-releases","server":"github-releases"},
 
+      {"rule_set":"rule-piracy-stream","server":"proxy"},
+      {"rule_set":["rule-vrchat-assets","rule-vrchat-cloud","rule-video-parse"],"server":"direct"},
+      {"rule_set":"rule-vrchat-com","server":"proxy"},
       {"rule_set":"rule-wahlap","server":"direct"},
-      {"rule_set":["rule-vrchat-assets","rule-vrchat-dot-cloud","rule-vrchat-video-player"],"server":"direct"},
-      {"rule_set":"rule-vrchat-dot-com","server":"proxy"},
       {"rule_set":"rule-steam-download","server":"direct"},
-      {"rule_set":"rule-steamdb","server":"direct"},
       {"rule_set":"rule-hackernews","server":"proxy"},
-
       {"rule_set":"geosite-connectivity-check","server":"direct"},
+
+      // ------- country rule -------
       {"rule_set":"geosite-geolocation-!cn@cn","server":"direct"},
       {"rule_set":"geosite-cn","server":"direct"},
       {"rule_set":"geosite-geolocation-!cn","server":"proxy"},
+      {"rule_set":"geosite-gfw","server":"proxy"},
 
       // ------- unknows domain -------
       {"action":"evaluate","server":"direct"},
@@ -167,14 +141,12 @@
     "servers":[
       {"tag":"proxy","detour":"proxy","server":"dns.cloudflare.com","domain_resolver":"hosts","type":"https"},
       // {"tag":"subnet","detour":"proxy","server":"dns.google","domain_resolver":"hosts","type":"https"},
-      {"tag":"vrchat-video-piracy","detour":"github-releases","server":"dns.alidns.com","domain_resolver":"hosts","type":"https"},
       {"tag":"github-releases","detour":"github-releases","server":"dns.alidns.com","domain_resolver":"hosts","type":"https"},
       {"tag":"google-dl","detour":"google-dl","server":"dns.alidns.com","domain_resolver":"hosts","type":"https"},
       {"tag":"googlefcm","detour":"googlefcm","server":"dns.alidns.com","domain_resolver":"hosts","type":"https"},
       {"tag":"direct","server":"dns.alidns.com","domain_resolver":"hosts","type":"h3"},
       {"tag":"local","type":"local"},
       // {"tag":"dhcp","type":"dhcp"},
-      // {"tag":"mdns","type":"mdns"},
       // {"tag":"fakeip","inet4_range":"198.18.0.0/15","inet6_range":"fc00::/18","type":"fakeip"},
       // {"tag":"resolved","type":"resolved","service":"resolved","accept_default_resolvers":false},
       // {"tag":"tailscale","type":"tailscale","endpoint":"tailscale","accept_default_resolvers":false},
@@ -183,7 +155,6 @@
   },
   "outbounds":[
     {"tag":"proxy","outbounds":["geph-http","geph-socks","geph-vpn","other"],"type":"selector"},
-    {"tag":"vrchat-video-piracy","outbounds":["proxy","direct"],"type":"selector"},
     {"tag":"captcha","outbounds":["proxy","direct"],"type":"selector"},
     {"tag":"github-releases","outbounds":["proxy","direct"],"type":"selector"},
     {"tag":"deepseek","outbounds":["direct","proxy"],"type":"selector"},
@@ -216,8 +187,8 @@
       //   "172.18.0.2"
       // ],
       "auto_route":true,
-      // "auto_redirect":true,
       // "strict_route":true,
+      // "auto_redirect":true,
       // "include_uid":1000,
       // "exclude_uid":0,
       // "exclude_package":["com.android.shell","com.termux","mark.via"],
@@ -225,12 +196,12 @@
       // "exclude_mptcp":true,
       // "loopback_address":"10.7.0.1",
       // "route_exclude_address_set":["geoip-cn"],
-      "platform":{"http_proxy":{"server":"127.0.0.1","server_port":7890,"enabled":true}},
+      // "platform":{"http_proxy":{"server":"127.0.0.1","server_port":7890,"enabled":true}},
       "type":"tun"
     },
-    {"tag":"tproxy","type":"tproxy","listen":"::","listen_port":7893},
-    {"tag":"redirect","type":"redirect","listen":"::","listen_port":7892},
-    {"tag":"dns","type":"socks","listen":"0.0.0.0","listen_port":7891},
+    // {"tag":"tproxy","type":"tproxy","listen":"::","listen_port":7893},
+    // {"tag":"redirect","type":"redirect","listen":"::","listen_port":7892},
+    // {"tag":"dns","type":"socks","listen":"0.0.0.0","listen_port":7891},
     {"tag":"mixed","type":"mixed","listen":"::","listen_port":7890}
   ],
   "endpoints":[
