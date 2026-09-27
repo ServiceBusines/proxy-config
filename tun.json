@@ -21,15 +21,13 @@
       // ------- specific service -------
       {"rule_set":"rule-google-dl","outbound":"google-dl"},
       {"rule_set":["geosite-hcaptcha","rule-recaptcha","rule-cloudflare-turnstile"],"outbound":"captcha"},
-      {"rule_set":["geosite-googlefcm","rule-googlefcm"],"outbound":"googlefcm"},
       {"rule_set":"rule-wahlap","outbound":"wahlap"},
-
       {"rule_set":"geoip-as199524","port":[27001,27002],"network":"udp","outbound":"vrchat-udp"},
       {"rule_set":"rule-vrchat-cloud-api","outbound":"vrchat-cloud-api"},
       {"rule_set":"rule-vrchat-cloud-file","outbound":"vrchat-cloud-file"},
       {"rule_set":"rule-vrchat-cloud-pipeline","outbound":"vrchat-cloud-pipeline"},
-      
-      {"rule_set":["rule-gradle","rule-maven","rule-steamdb","geosite-connectivity-check","rule-steam-download","rule-github-releases","rule-github-raw","rule-vrchat-games","rule-vrchat-video-parse"],"outbound":"direct"},
+
+      {"rule_set":["geosite-googlefcm","rule-googlefcm","rule-gradle","rule-maven","rule-steamdb","geosite-connectivity-check","rule-steam-download","rule-github-releases","rule-github-raw","rule-vrchat-games","rule-vrchat-video-parse"],"outbound":"direct"},
       {"rule_set":["rule-hackernews","rule-vrchat-piracy-stream","rule-vrchat-com"],"outbound":"proxy"},
 
       // ------- country rule -------
@@ -107,9 +105,8 @@
 
       // ------- specific service -------
       {"rule_set":"rule-google-dl","server":"google-dl"},
-      {"rule_set":["geosite-googlefcm","rule-googlefcm"],"server":"googlefcm"},
 
-      {"rule_set":["rule-wahlap","rule-steam-download","geosite-connectivity-check","rule-vrchat-cloud-api","rule-vrchat-cloud-file","rule-vrchat-cloud-pipeline" ],"server":"direct"},
+      {"rule_set":["geosite-googlefcm","rule-googlefcm","rule-wahlap","rule-steam-download","geosite-connectivity-check","rule-vrchat-cloud-api","rule-vrchat-cloud-file","rule-vrchat-cloud-pipeline" ],"server":"direct"},
       {"rule_set":["rule-hackernews","rule-vrchat-piracy-stream","rule-vrchat-com"],"query_type":"A","server":"proxy"},
       {"rule_set":["rule-hackernews","rule-vrchat-piracy-stream","rule-vrchat-com"],"query_type":"AAAA","server":"proxy"},
 
@@ -136,7 +133,6 @@
       {"tag":"proxy","detour":"proxy","server":"dns.cloudflare.com","domain_resolver":"hosts","type":"https"},
       // {"tag":"subnet","detour":"proxy","server":"dns.google","domain_resolver":"hosts","type":"https"},
       {"tag":"google-dl","detour":"google-dl","server":"dns.alidns.com","domain_resolver":"hosts","type":"h3"},
-      {"tag":"googlefcm","detour":"googlefcm","server":"dns.alidns.com","domain_resolver":"hosts","type":"h3"},
       {"tag":"direct","server":"dns.alidns.com","domain_resolver":"hosts","type":"h3"},
       {"tag":"local","type":"local"},
       // {"tag":"dhcp","type":"dhcp"},
@@ -151,7 +147,6 @@
     {"tag":"captcha","outbounds":["proxy","direct"],"type":"selector"},
     {"tag":"github-releases","outbounds":["proxy","direct"],"type":"selector"},
     {"tag":"google-dl","outbounds":["direct","proxy"],"type":"selector"},
-    {"tag":"googlefcm","outbounds":["direct","proxy"],"type":"selector"},
     {"tag":"vrchat-udp","outbounds":["direct","proxy"],"type":"selector"},
     {"tag":"vrchat-cloud-api","outbounds":["direct","proxy"],"type":"selector"},
     {"tag":"vrchat-cloud-file","outbounds":["direct","proxy"],"type":"selector"},
