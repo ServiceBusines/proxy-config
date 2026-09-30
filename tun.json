@@ -143,7 +143,7 @@
     ]
   },
   "outbounds":[
-    {"tag":"proxy","outbounds":["geph-http","geph-socks","geph-vpn"],"type":"selector"},
+    {"tag":"proxy","outbounds":["geph-http","geph-socks"],"type":"selector"},
     {"tag":"captcha","outbounds":["proxy","direct"],"type":"selector"},
     {"tag":"github-releases","outbounds":["proxy","direct"],"type":"selector"},
     {"tag":"google-dl","outbounds":["direct","proxy"],"type":"selector"},
@@ -155,7 +155,6 @@
     {"tag":"lxns","server_port":8080,"server":"proxy.maimai.lxns.net","type":"http"},
     {"tag":"geph-http","server_port":9910,"server":"localhost","domain_resolver":"local","type":"http"},
     {"tag":"geph-socks","server_port":9909,"server":"localhost","domain_resolver":"local","type":"socks"},
-    {"tag":"geph-vpn","server_port":9909,"server":"geph-vpn","domain_resolver":"local","type":"socks"},
     {"tag":"direct","outbounds":["direct-default","direct-perfer-ipv6","direct-perfer-ipv4","direct-ipv6-only","direct-ipv4-only"],"type":"selector"},
     {"tag":"direct-ipv6-only","domain_resolver":{"strategy":"ipv6_only","server":"local"},"type":"direct"},
     {"tag":"direct-ipv4-only","domain_resolver":{"strategy":"ipv4_only","server":"local"},"type":"direct"},
