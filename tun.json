@@ -19,6 +19,8 @@
       {"rule_set":["geosite-category-httpdns-cn","geosite-category-ads-all","geosite-geolocation-!cn@ads","geosite-cn@ads","rule-custom-block"],"action":"reject"},
 
       // ------- specific service -------
+      {"rule_set":"rule-github-raw","outbound":"github-raw"},
+      {"rule_set":"rule-github-releases","outbound":"github-releases"},
       {"rule_set":"rule-google-dl","outbound":"google-dl"},
       {"rule_set":["geosite-hcaptcha","rule-recaptcha","rule-cloudflare-turnstile"],"outbound":"captcha"},
       {"rule_set":"rule-wahlap","outbound":"wahlap"},
@@ -27,7 +29,7 @@
       {"rule_set":"rule-vrchat-cloud-file","outbound":"vrchat-cloud-file"},
       {"rule_set":"rule-vrchat-cloud-pipeline","outbound":"vrchat-cloud-pipeline"},
 
-      {"rule_set":["geosite-googlefcm","rule-googlefcm","rule-gradle","rule-maven","rule-steamdb","geosite-connectivity-check","rule-steam-download","rule-github-releases","rule-github-raw","rule-vrchat-games","rule-vrchat-video-parse"],"outbound":"direct"},
+      {"rule_set":["geosite-googlefcm","rule-googlefcm","rule-gradle","rule-maven","rule-steamdb","geosite-connectivity-check","rule-steam-download","rule-vrchat-games","rule-vrchat-video-parse"],"outbound":"direct"},
       {"rule_set":["rule-hackernews","rule-vrchat-piracy-stream","rule-vrchat-com"],"outbound":"proxy"},
 
       // ------- country rule -------
@@ -144,13 +146,14 @@
   },
   "outbounds":[
     {"tag":"proxy","outbounds":["geph-http","geph-socks"],"type":"selector"},
-    {"tag":"captcha","outbounds":["proxy","direct"],"type":"selector"},
+    {"tag":"github-raw","outbounds":["direct","proxy"],"type":"selector"},
     {"tag":"github-releases","outbounds":["proxy","direct"],"type":"selector"},
-    {"tag":"google-dl","outbounds":["direct","proxy"],"type":"selector"},
+    {"tag":"captcha","outbounds":["proxy","direct"],"type":"selector"},
     {"tag":"vrchat-udp","outbounds":["direct","proxy"],"type":"selector"},
     {"tag":"vrchat-cloud-api","outbounds":["direct","proxy"],"type":"selector"},
     {"tag":"vrchat-cloud-file","outbounds":["direct","proxy"],"type":"selector"},
     {"tag":"vrchat-cloud-pipeline","outbounds":["direct","proxy"],"type":"selector"},
+    {"tag":"google-dl","outbounds":["direct","proxy"],"type":"selector"},
     {"tag":"wahlap","outbounds":["direct","lxns"],"type":"selector"},
     {"tag":"lxns","server_port":8080,"server":"proxy.maimai.lxns.net","type":"http"},
     {"tag":"geph-http","server_port":9910,"server":"localhost","domain_resolver":"local","type":"http"},
