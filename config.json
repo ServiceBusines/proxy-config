@@ -10,7 +10,7 @@
       {"port":123,"network":"udp","action":"bypass"},
       {"ip_is_private":true,"action":"bypass"},
 
-      {"inbound":"mixed","invert":true,"action":"sniff"},
+      {"action":"sniff"},
       {"protocol":"dns","action":"hijack-dns"},
       {"protocol":"ntp","outbound":"direct"},
       {"rule_set":["geosite-private","rule-process-geph","rule-process-vpn"],"outbound":"direct"},
@@ -19,26 +19,26 @@
       {"rule_set":["geosite-category-httpdns-cn","geosite-category-ads-all","geosite-geolocation-!cn@ads","geosite-cn@ads","rule-custom-block"],"action":"reject"},
 
       // ------- specific service -------
-      {"rule_set":"rule-github-raw","outbound":"github-raw"},
-      {"rule_set":"rule-github-releases","outbound":"github-releases"},
-      {"rule_set":"rule-google-dl","outbound":"google-dl"},
-      {"rule_set":["geosite-hcaptcha","rule-recaptcha","rule-cloudflare-turnstile"],"outbound":"captcha"},
-      {"rule_set":"rule-wahlap","outbound":"wahlap"},
-      {"rule_set":"geoip-as199524","port":[27001,27002],"network":"udp","outbound":"vrchat-udp"},
-      {"rule_set":"rule-vrchat-cloud-api","outbound":"vrchat-cloud-api"},
-      {"rule_set":"rule-vrchat-cloud-file","outbound":"vrchat-cloud-file"},
-      {"rule_set":"rule-vrchat-cloud-pipeline","outbound":"vrchat-cloud-pipeline"},
+      {"domain":"raw.githubusercontent.com","outbound":"github-raw"},
+      {"domain":"release-assets.githubusercontent.com","outbound":"github-releases"},
+      {"domain":"dl.google.com","outbound":"google-dl"},
+      {"domain_suffix":["recaptcha.net","recaptcha-cn.net"],"domain":"challenges.cloudflare.com","rule_set":["geosite-hcaptcha"],"outbound":"captcha"},
+      {"domain_suffix":"wahlap.com","outbound":"wahlap"},
 
-      {"rule_set":["geosite-googlefcm","rule-googlefcm","rule-gradle","rule-maven","rule-steamdb","geosite-connectivity-check","rule-steam-download","rule-vrchat-games","rule-vrchat-video-parse"],"outbound":"direct"},
-      {"rule_set":["rule-hackernews","rule-vrchat-piracy-stream","rule-vrchat-com"],"outbound":"proxy"},
+      {"rule_set":"geoip-as199524","port":[27001,27002],"network":"udp","outbound":"vrchat-photonengine"},
+      {"domain":["api.vrchat.cloud","files.vrchat.cloud","file-variants.vrchat.cloud","pipeline.vrchat.cloud","15308.kstore.space"],"rule_set":"rule-vrchat-video-parse","outbound":"direct"},
+      {"domain_suffix":"vrchat.com","domain":"svipsvip.ffzy-online5.com","outbound":"proxy"},
+
+      {"domain":["services.gradle.org","repo.maven.apache.org","steamdb.info"],"rule_set":["geosite-googlefcm","rule-googlefcm","geosite-connectivity-check","rule-steam-download"],"outbound":"direct"},
+      {"domain":"news.ycombinator.com","outbound":"proxy"},
 
       // ------- country rule -------
       {"rule_set":["geosite-cn","geosite-geolocation-!cn@cn"],"outbound":"direct"},
       // {"rule_set":["geosite-geolocation-!cn","geosite-gfw"],"outbound":"proxy"},
 
       // ------- unknown -------
-      // {"inbound":"mixed","invert":true,"action":"resolve"},
-      {"action":"resolve"},
+      {"inbound":"mixed","invert":true,"action":"resolve"},
+      // {"action":"resolve"},
       {"type":"logical","mode":"and","rules":[
         {"rule_set":"geosite-geolocation-!cn","invert":true},
         {"rule_set":"geoip-cn"}
@@ -48,25 +48,8 @@
       {"outbound":"proxy"}
     ],
     "rule_set":[
-      {"tag":"rule-gradle","rules":[{"domain":"services.gradle.org"}]},
-      {"tag":"rule-maven","rules":[{"domain":"repo.maven.apache.org"}]},
-      {"tag":"rule-github-raw","rules":[{"domain":"raw.githubusercontent.com"}]},
-      {"tag":"rule-github-releases","rules":[{"domain":"release-assets.githubusercontent.com"}]},
-      {"tag":"rule-recaptcha","rules":[{"domain_suffix":["recaptcha.net","recaptcha-cn.net"]}]},
-      {"tag":"rule-cloudflare-turnstile","rules":[{"domain":"challenges.cloudflare.com"}]},
       {"tag":"rule-steam-download","rules":[{"domain":"steamcdn-a.akamaihd.net","domain_suffix":["cm.steampowered.com","steamserver.net"]}]},
-      {"tag":"rule-steamdb","rules":[{"domain":"steamdb.info"}]},
-      {"tag":"rule-hackernews","rules":[{"domain":"news.ycombinator.com"}]},
-      {"tag":"rule-vrchat-piracy-stream","rules":[{"domain":"svipsvip.ffzy-online5.com"}]},
       {"tag":"rule-vrchat-video-parse","rules":[{"domain":["kft.vrchat.org.cn","bil.ouo.chat","biliplayer.91vrchat.com","bilibili-real-url.deno.dev"]}]},
-      {"tag":"rule-vrchat-games","rules":[{"domain":"15308.kstore.space"}]},
-      {"tag":"rule-vrchat-cloud-file","rules":[{"domain":["files.vrchat.cloud","file-variants.vrchat.cloud"]}]},
-      {"tag":"rule-vrchat-cloud-pipeline","rules":[{"domain":"pipeline.vrchat.cloud"}]},
-      {"tag":"rule-vrchat-cloud-api","rules":[{"domain":"api.vrchat.cloud"}]},
-      // {"tag":"rule-vrchat-cloud","rules":[{"domain_suffix":"vrchat.cloud"}]},
-      {"tag":"rule-vrchat-com","rules":[{"domain_suffix":"vrchat.com"}]},
-      {"tag":"rule-wahlap","rules":[{"domain_suffix":"wahlap.com"}]},
-      {"tag":"rule-google-dl","rules":[{"domain":"dl.google.com"}]},
       {"tag":"rule-googlefcm","rules":[{"domain_suffix":["mobile-gtalk6.l.google.com","mobile-gtalk4.l.google.com","mobile-gtalk.l.google.com"]}]},
       {"tag":"rule-geph-broker","rules":[{"domain":["lambda.us-east-1.amazonaws.com","kubernetes.io","www.cdn77.com"]}]},
       {"tag":"rule-process-geph","rules":[{"process_name":["geph5-client.exe","geph5.exe"]}]},
@@ -98,6 +81,7 @@
     // "strategy":"ipv4_only",
     "reverse_mapping":true,
     "rules":[
+      {"domain":"localhost","server":"localhost"},
       {"preferred_by":"hosts","server":"hosts"},
       {"rule_set":"geosite-private","server":"local"},
       {"rule_set":["rule-geph-broker","rule-process-geph","rule-process-vpn"],"server":"direct"},
@@ -106,11 +90,11 @@
       {"rule_set":["geosite-category-httpdns-cn","geosite-category-ads-all","geosite-geolocation-!cn@ads","geosite-cn@ads","rule-custom-block"],"action":"reject"},
 
       // ------- specific service -------
-      {"rule_set":"rule-google-dl","server":"google-dl"},
+      {"domain":"dl.google.com","server":"google-dl"},
 
-      {"rule_set":["geosite-googlefcm","rule-googlefcm","rule-wahlap","rule-steam-download","geosite-connectivity-check","rule-vrchat-cloud-api","rule-vrchat-cloud-file","rule-vrchat-cloud-pipeline" ],"server":"direct"},
-      {"rule_set":["rule-hackernews","rule-vrchat-piracy-stream","rule-vrchat-com"],"query_type":"A","server":"proxy"},
-      {"rule_set":["rule-hackernews","rule-vrchat-piracy-stream","rule-vrchat-com"],"query_type":"AAAA","server":"proxy"},
+      {"domain":"wahlap.com","rule_set":["geosite-googlefcm","rule-googlefcm","rule-steam-download","geosite-connectivity-check"],"server":"direct"},
+      {"domain":"news.ycombinator.com","query_type":"A","server":"proxy"},
+      {"domain":"news.ycombinator.com","query_type":"AAAA","action":"reject"},
 
       // ------- country rule -------
       {"rule_set":["geosite-geolocation-!cn@cn","geosite-cn"],"server":"direct"},
@@ -141,23 +125,25 @@
       // {"tag":"fakeip","inet4_range":"198.18.0.0/15","inet6_range":"fc00::/18","type":"fakeip"},
       // {"tag":"resolved","type":"resolved","service":"resolved","accept_default_resolvers":false},
       // {"tag":"tailscale","type":"tailscale","endpoint":"tailscale","accept_default_resolvers":false},
+      {"tag":"localhost","predefined":{"localhost":["127.0.0.1","::"]},"type":"hosts"},
+      {"tag":"vrchat","predefined":{"api.vrchat.cloud":["104.18.26.36","104.18.27.36","2606:4700::6812:1a24","2606:4700::6812:1b24"]},"type":"hosts"},
       {"tag":"hosts","predefined":{"time.cloudflare.com":["162.159.200.123","162.159.200.1"],"dns.pub":["1.12.12.21","120.53.53.53"],"dns.alidns.com":["223.6.6.6","223.5.5.5"],"dns.google":["8.8.4.4", "8.8.8.8"],"dns.cloudflare.com":["104.16.133.229","104.16.132.229"],"cloudflare-dns.com":["104.16.248.249","104.16.249.249"],"raw.githubusercontent.com":["185.199.111.133","185.199.110.133","185.199.109.133","185.199.108.133"],"release-assets.githubusercontent.com":["185.199.111.133","185.199.110.133","185.199.109.133","185.199.108.133"]},"type":"hosts"}
     ]
   },
   "outbounds":[
-    {"tag":"proxy","outbounds":["geph-http","geph-socks"],"type":"selector"},
+    {"tag":"proxy","outbounds":["http-9910","socks-9909"],"type":"selector"},
     {"tag":"github-raw","outbounds":["proxy","direct"],"type":"selector"},
     {"tag":"github-releases","outbounds":["proxy","direct"],"type":"selector"},
     {"tag":"captcha","outbounds":["proxy","direct"],"type":"selector"},
-    {"tag":"vrchat-udp","outbounds":["direct","proxy"],"type":"selector"},
+    {"tag":"vrchat-photonengine","outbounds":["direct","proxy"],"type":"selector"},
     {"tag":"vrchat-cloud-api","outbounds":["direct","proxy"],"type":"selector"},
     {"tag":"vrchat-cloud-file","outbounds":["direct","proxy"],"type":"selector"},
     {"tag":"vrchat-cloud-pipeline","outbounds":["direct","proxy"],"type":"selector"},
     {"tag":"google-dl","outbounds":["direct","proxy"],"type":"selector"},
     {"tag":"wahlap","outbounds":["direct","lxns"],"type":"selector"},
     {"tag":"lxns","server_port":8080,"server":"proxy.maimai.lxns.net","type":"http"},
-    {"tag":"geph-http","server_port":9910,"server":"localhost","domain_resolver":"local","type":"http"},
-    {"tag":"geph-socks","server_port":9909,"server":"localhost","domain_resolver":"local","type":"socks"},
+    {"tag":"http-9910","server_port":9910,"server":"localhost","domain_resolver":"localhost","type":"http"},
+    {"tag":"socks-9909","server_port":9909,"server":"localhost","domain_resolver":"localhost","type":"socks"},
     {"tag":"direct","outbounds":["direct-default","direct-perfer-ipv6","direct-perfer-ipv4","direct-ipv6-only","direct-ipv4-only"],"type":"selector"},
     {"tag":"direct-ipv6-only","domain_resolver":{"strategy":"ipv6_only","server":"local"},"type":"direct"},
     {"tag":"direct-ipv4-only","domain_resolver":{"strategy":"ipv4_only","server":"local"},"type":"direct"},
