@@ -37,7 +37,7 @@
       // {"rule_set":["geosite-geolocation-!cn","geosite-gfw"],"outbound":"proxy"},
 
       // ------- unknown -------
-      {"inbound":"mixed","invert":true,"action":"resolve"},
+      {"action":"resolve"},
       // {"action":"resolve"},
       {"type":"logical","mode":"and","rules":[
         {"rule_set":"geosite-geolocation-!cn","invert":true},
