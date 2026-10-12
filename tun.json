@@ -26,8 +26,8 @@
       {"domain_suffix":"wahlap.com","outbound":"wahlap"},
 
       {"rule_set":"geoip-as199524","port":[27001,27002],"network":"udp","outbound":"vrchat-photonengine"},
-      {"domain":["api.vrchat.cloud","files.vrchat.cloud","file-variants.vrchat.cloud","pipeline.vrchat.cloud","15308.kstore.space"],"rule_set":"rule-vrchat-video-parse","outbound":"direct"},
-      {"domain_suffix":"vrchat.com","domain":"svipsvip.ffzy-online5.com","outbound":"proxy"},
+      {"domain":["api.vrchat.cloud","files.vrchat.cloud","file-variants.vrchat.cloud","pipeline.vrchat.cloud","15308.kstore.space"],"domain_regex":".ffzy-(online|play)[0-9s].com$","rule_set":"rule-vrchat-video-parse","outbound":"direct"},
+      {"domain_suffix":"vrchat.com","outbound":"proxy"},
 
       {"domain":["services.gradle.org","repo.maven.apache.org","steamdb.info"],"rule_set":["geosite-googlefcm","rule-googlefcm","geosite-connectivity-check","rule-steam-download"],"outbound":"direct"},
       {"domain":"news.ycombinator.com","outbound":"proxy"},
