@@ -30,7 +30,6 @@
       {"domain_suffix":"vrchat.com","outbound":"proxy"},
 
       {"domain":["services.gradle.org","repo.maven.apache.org","steamdb.info"],"rule_set":["geosite-googlefcm","rule-googlefcm","geosite-connectivity-check","rule-steam-download"],"outbound":"direct"},
-      {"domain":"news.ycombinator.com","outbound":"proxy"},
 
       // ------- country rule -------
       {"rule_set":["geosite-cn","geosite-geolocation-!cn@cn"],"outbound":"direct"},
@@ -38,7 +37,6 @@
 
       // ------- unknown -------
       {"action":"resolve"},
-      // {"action":"resolve"},
       {"type":"logical","mode":"and","rules":[
         {"rule_set":"geosite-geolocation-!cn","invert":true},
         {"rule_set":"geoip-cn"}
@@ -93,12 +91,10 @@
       {"domain":"dl.google.com","server":"google-dl"},
 
       {"domain":"wahlap.com","rule_set":["geosite-googlefcm","rule-googlefcm","rule-steam-download","geosite-connectivity-check"],"server":"direct"},
-      {"domain":"news.ycombinator.com","query_type":"A","server":"proxy"},
       // {"domain":"news.ycombinator.com","query_type":"AAAA","action":"reject"},
 
       // ------- country rule -------
       {"rule_set":["geosite-geolocation-!cn@cn","geosite-cn"],"server":"direct"},
-      {"rule_set":["geosite-geolocation-!cn","geosite-gfw"],"query_type":"A","server":"proxy"},
       // {"rule_set":["geosite-geolocation-!cn","geosite-gfw"],"query_type":"AAAA","action":"reject"},
 
       // ------- fakeip -------
@@ -112,7 +108,7 @@
 
       // ------- final -------
       {"query_type":"A","action":"respond"},
-      {"query_type":"AAAA","action":"respond"},
+      {"query_type":"AAAA","action":"respond"}
       // {"query_type":"AAAA","action":"reject"}
       // {"query_type":"AAAA","rcode":"NOERROR","action":"predefined"}
     ],
