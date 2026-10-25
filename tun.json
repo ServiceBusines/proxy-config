@@ -96,11 +96,9 @@
       
       {"rule_set":"rule-ffplay","server":"proxy"},
       {"domain":"wahlap.com","rule_set":["geosite-googlefcm","rule-googlefcm","rule-steam-download","geosite-connectivity-check"],"server":"direct"},
-      // {"domain":"news.ycombinator.com","query_type":"AAAA","action":"reject"},
 
       // ------- country rule -------
       {"rule_set":["geosite-geolocation-!cn@cn","geosite-cn"],"server":"direct"},
-      // {"rule_set":["geosite-geolocation-!cn","geosite-gfw"],"query_type":"AAAA","action":"reject"},
 
       // ------- fakeip -------
       // {"query_type":["AAAA","A"],"server":"fakeip"},
