@@ -18,6 +18,8 @@
       // ------- ad -------
       {"rule_set":["geosite-category-httpdns-cn","geosite-category-ads-all","geosite-geolocation-!cn@ads","geosite-cn@ads","rule-custom-block"],"action":"reject"},
 
+      {"action":"resolve"},
+
       // ------- specific service -------
       {"domain":"raw.githubusercontent.com","outbound":"github-raw"},
       {"domain":"release-assets.githubusercontent.com","outbound":"github-releases"},
@@ -25,8 +27,9 @@
       {"domain_suffix":["recaptcha.net","recaptcha-cn.net"],"domain":"challenges.cloudflare.com","rule_set":["geosite-hcaptcha"],"outbound":"captcha"},
       {"domain_suffix":"wahlap.com","outbound":"wahlap"},
 
+      {"rule_set":"rule-ffplay","outbound":"ffplay"},
       {"rule_set":"geoip-as199524","port":[27001,27002],"network":"udp","outbound":"vrchat-photonengine"},
-      {"domain":["pipeline.vrchat.cloud","api.vrchat.cloud","files.vrchat.cloud","file-variants.vrchat.cloud","15308.kstore.space"],"domain_regex":".ffzy-(online|play)[0-9s].com$","rule_set":"rule-vrchat-video-parse","outbound":"direct"},
+      {"domain":["pipeline.vrchat.cloud","api.vrchat.cloud","files.vrchat.cloud","file-variants.vrchat.cloud","15308.kstore.space"],"rule_set":["rule-ffplay","rule-vrchat-video-parse"],"outbound":"direct"},
       {"domain_suffix":"vrchat.com","outbound":"proxy"},
 
       {"domain":["services.gradle.org","repo.maven.apache.org","steamdb.info"],"rule_set":["geosite-googlefcm","rule-googlefcm","geosite-connectivity-check","rule-steam-download"],"outbound":"direct"},
@@ -36,7 +39,7 @@
       // {"rule_set":["geosite-geolocation-!cn","geosite-gfw"],"outbound":"proxy"},
 
       // ------- unknown -------
-      {"action":"resolve"},
+      // {"action":"resolve"},
       {"type":"logical","mode":"and","rules":[
         {"rule_set":"geosite-geolocation-!cn","invert":true},
         {"rule_set":"geoip-cn"}
@@ -46,6 +49,7 @@
       {"outbound":"proxy"}
     ],
     "rule_set":[
+      {"tag":"rule-ffplay","rules":[{"domain_regex":[".ffzy-(online|play)[0-9].com$",".feifei-play.com$"]}]},
       {"tag":"rule-steam-download","rules":[{"domain":"steamcdn-a.akamaihd.net","domain_suffix":["cm.steampowered.com","steamserver.net"]}]},
       {"tag":"rule-vrchat-video-parse","rules":[{"domain":["kft.vrchat.org.cn","bil.ouo.chat","biliplayer.91vrchat.com","bilibili-real-url.deno.dev"]}]},
       {"tag":"rule-googlefcm","rules":[{"domain_suffix":["mobile-gtalk6.l.google.com","mobile-gtalk4.l.google.com","mobile-gtalk.l.google.com"]}]},
@@ -89,7 +93,8 @@
 
       // ------- specific service -------
       {"domain":"dl.google.com","server":"google-dl"},
-
+      
+      {"rule_set":"rule-ffplay","server":"proxy"},
       {"domain":"wahlap.com","rule_set":["geosite-googlefcm","rule-googlefcm","rule-steam-download","geosite-connectivity-check"],"server":"direct"},
       // {"domain":"news.ycombinator.com","query_type":"AAAA","action":"reject"},
 
@@ -128,17 +133,19 @@
     ]
   },
   "outbounds":[
-    {"tag":"proxy","outbounds":["http-9910","socks-9909"],"type":"selector"},
+    {"tag":"proxy","outbounds":["default","alt"],"type":"selector"},
+    {"tag":"game","outbounds":["default","alt"],"type":"selector"},
+    {"tag":"ffplay","outbounds":["direct","proxy"],"type":"selector"},
     {"tag":"github-raw","outbounds":["proxy","direct"],"type":"selector"},
     {"tag":"github-releases","outbounds":["proxy","direct"],"type":"selector"},
     {"tag":"captcha","outbounds":["proxy","direct"],"type":"selector"},
-    {"tag":"vrchat-photonengine","outbounds":["direct","proxy","socks-9909"],"type":"selector"},
+    {"tag":"vrchat-photonengine","outbounds":["direct","proxy","game"],"type":"selector"},
     {"tag":"vrchat-cloud-file","outbounds":["direct","proxy"],"type":"selector"},
     {"tag":"google-dl","outbounds":["direct","proxy"],"type":"selector"},
     {"tag":"wahlap","outbounds":["direct","lxns"],"type":"selector"},
     {"tag":"lxns","server_port":8080,"server":"proxy.maimai.lxns.net","type":"http"},
-    {"tag":"http-9910","server_port":9910,"server":"localhost","domain_resolver":"localhost","type":"http"},
-    {"tag":"socks-9909","server_port":9909,"server":"localhost","domain_resolver":"localhost","type":"socks"},
+    {"tag":"default","server_port":9910,"server":"localhost","domain_resolver":"localhost","type":"http"},
+    {"tag":"alt","server_port":9909,"server":"localhost","domain_resolver":"localhost","type":"http"},
     {"tag":"direct","outbounds":["direct-default","direct-perfer-ipv6","direct-perfer-ipv4","direct-ipv6-only","direct-ipv4-only"],"type":"selector"},
     {"tag":"direct-ipv6-only","domain_resolver":{"strategy":"ipv6_only","server":"local"},"type":"direct"},
     {"tag":"direct-ipv4-only","domain_resolver":{"strategy":"ipv4_only","server":"local"},"type":"direct"},
