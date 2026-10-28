@@ -27,9 +27,10 @@
       {"domain_suffix":["recaptcha.net","recaptcha-cn.net"],"domain":"challenges.cloudflare.com","rule_set":["geosite-hcaptcha"],"outbound":"captcha"},
       {"domain_suffix":"wahlap.com","outbound":"wahlap"},
 
+      {"domain":["files.vrchat.cloud","file-variants.vrchat.cloud"],"outbound":"vrchat-file"},
       {"rule_set":"rule-ffplay","outbound":"ffplay"},
       {"rule_set":"geoip-as199524","port":[27001,27002],"network":"udp","outbound":"vrchat-photonengine"},
-      {"domain":["pipeline.vrchat.cloud","api.vrchat.cloud","files.vrchat.cloud","file-variants.vrchat.cloud","15308.kstore.space"],"rule_set":["rule-ffplay","rule-vrchat-video-parse"],"outbound":"direct"},
+      {"domain":["pipeline.vrchat.cloud","api.vrchat.cloud","15308.kstore.space"],"rule_set":["rule-ffplay","rule-vrchat-video-parse"],"outbound":"direct"},
       {"domain_suffix":"vrchat.com","outbound":"proxy"},
 
       {"domain":["services.gradle.org","repo.maven.apache.org","steamdb.info"],"rule_set":["geosite-googlefcm","rule-googlefcm","geosite-connectivity-check","rule-steam-download"],"outbound":"direct"},
@@ -93,27 +94,23 @@
 
       // ------- specific service -------
       {"domain":"dl.google.com","server":"google-dl"},
-      
       {"rule_set":"rule-ffplay","server":"proxy"},
-      {"domain":"wahlap.com","rule_set":["geosite-googlefcm","rule-googlefcm","rule-steam-download","geosite-connectivity-check"],"server":"direct"},
+
+      {"domain":["files.vrchat.cloud","file-variants.vrchat.cloud","wahlap.com"],"rule_set":["geosite-googlefcm","rule-googlefcm","rule-steam-download","geosite-connectivity-check"],"server":"local"},
 
       // ------- country rule -------
-      {"rule_set":["geosite-geolocation-!cn@cn","geosite-cn"],"server":"direct"},
+      {"rule_set":["geosite-geolocation-!cn@cn","geosite-cn"],"server":"local"},
 
       // ------- fakeip -------
       // {"query_type":["AAAA","A"],"server":"fakeip"},
 
       // ------- unknown -------
-      // {"action":"evaluate","server":"local"},
-      // {"rule_set":"geoip-cn","match_response":true,"action":"respond"},
       {"action":"evaluate","server":"proxy"},
       {"rule_set":"geoip-cn","match_response":true,"server":"local"},
 
       // ------- final -------
       {"query_type":"A","action":"respond"},
       {"query_type":"AAAA","action":"respond"}
-      // {"query_type":"AAAA","action":"reject"}
-      // {"query_type":"AAAA","rcode":"NOERROR","action":"predefined"}
     ],
     "servers":[
       {"tag":"proxy","detour":"proxy","server":"dns.cloudflare.com","domain_resolver":"hosts","type":"https"},
@@ -133,6 +130,7 @@
   "outbounds":[
     {"tag":"proxy","outbounds":["default","alt"],"type":"selector"},
     {"tag":"game","outbounds":["default","alt"],"type":"selector"},
+    {"tag":"vrchat-file","outbounds":["direct","proxy"],"type":"selector"},
     {"tag":"ffplay","outbounds":["direct","proxy"],"type":"selector"},
     {"tag":"github-raw","outbounds":["proxy","direct"],"type":"selector"},
     {"tag":"github-releases","outbounds":["proxy","direct"],"type":"selector"},
